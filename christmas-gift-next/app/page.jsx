@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect, useMemo, useState } from 'react';
 import { Gift, Snowflake, Trophy, Pencil, Coins, Sparkles, ShieldAlert, Crown } from 'lucide-react';
-const TEAMS=[{id:'human',name:'인간',color:'#bd302b',soft:'#f8e4df',icon:'♟'},{id:'soldier',name:'병정',color:'#28649a',soft:'#e0ebf6',icon:'♜'},{id:'mouse',name:'쥐',color:'#287347',soft:'#e0eee2',icon:'♚'}];
+const TEAMS=[{id:'human',name:'인간',color:'#751515',soft:'#f8e4df',icon:'♕'},{id:'soldier',name:'병정',color:'#0F2F66',soft:'#e0ebf6',icon:'♜'},{id:'mouse',name:'쥐',color:'#284330',soft:'#e0eee2',icon:'♚'}];
 const initialRanks = { human: [], soldier: [], mouse: [] };
 const STORAGE_KEY='christmas-gift-event-v1';
 function App(){
@@ -536,25 +536,52 @@ async function submitAuth(e) {
       aria-modal="true"
       aria-labelledby="rename-heading"
       onClick={e => e.stopPropagation()}
-      style={{
-        width: '100%',
-        maxWidth: 420,
-        boxSizing: 'border-box',
-        padding: 24,
-        borderRadius: 12,
-      }}
+
+style={{
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'stretch',
+  width: '100%',
+  maxWidth: 420,
+  minWidth: 0,
+  boxSizing: 'border-box',
+  padding: 24,
+  borderRadius: 12,
+}}
+
     >
-      <div className="rename-title">
-        <div className="heading-icon gold">
-          <Pencil size={18} />
-        </div>
-        <div>
-          <h2 id="rename-heading">닉네임 변경</h2>
-          <p>새로운 닉네임을 입력해 주세요.</p>
-        </div>
-      </div>
+
+
+<div
+  className="rename-title"
+  style={{
+    display: 'flex',
+    alignItems: 'center',
+    gap: 12,
+    width: '100%',
+    minWidth: 0,
+    boxSizing: 'border-box',
+  }}
+>
+  <div className="heading-icon gold">
+    <Pencil size={18} />
+  </div>
+
+  <div>
+    <h2 id="rename-heading">닉네임 변경</h2>
+    <p>새로운 닉네임을 입력해 주세요.</p>
+  </div>
+</div>
+
 
       <form
+         style={{
+          display: 'flex',
+          flexDirection: 'column',
+          width: '100%',
+          minWidth: 0,
+          boxSizing: 'border-box',
+         }}
         onSubmit={async e => {
           e.preventDefault();
           if (renaming) return;
@@ -627,6 +654,7 @@ async function submitAuth(e) {
   style={{
     display: 'block',
     width: '100%',
+    minWidth: 0,
     height: 44,
     boxSizing: 'border-box',
     marginTop: 8,
@@ -635,47 +663,64 @@ async function submitAuth(e) {
   }}
 />
 
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'flex-end',
-            gap: 10,
-            marginTop: 10,
-          }}
-        >
-          <button
-            type="button"
-            disabled={renaming}
-            onClick={() => setShowRenameModal(false)}
 
-style={{
-  width: 'auto',
-  minWidth: 76,
-  minHeight: 42,
-  padding: '10px 16px',
-  borderRadius: 8,
-}}
+<div
+  style={{
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    flexWrap: 'nowrap',
+    gap: 10,
+    width: '100%',
+    minWidth: 0,
+    boxSizing: 'border-box',
+    marginTop: 18,
+  }}
+>
+  <button
+    type="button"
+    disabled={renaming}
+    onClick={() => setShowRenameModal(false)}
+    style={{
+      display: 'inline-flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      flex: '0 0 auto',
+      width: 'auto',
+      minWidth: 76,
+      minHeight: 42,
+      padding: '10px 14px',
+      boxSizing: 'border-box',
+      whiteSpace: 'nowrap',
+      wordBreak: 'keep-all',
+    }}
+  >
+    취소
+  </button>
 
-          >
-            취소
-          </button>
+  <button
+    type="submit"
+    className="primary-button"
+    disabled={renaming}
+    style={{
+      display: 'inline-flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      flex: '0 0 auto',
+      width: 'auto',
+      minWidth: 76,
+      minHeight: 42,
+      padding: '10px 14px',
+      boxSizing: 'border-box',
+      whiteSpace: 'nowrap',
+      wordBreak: 'keep-all',
+    }}
+  >
+    {renaming ? '변경 중...' : '변경하기'}
+  </button>
+</div>
 
-          <button
-            type="submit"
-            className="primary-button"
-            disabled={renaming}
-            style={{
-              width: 'auto',
-              padding: '10px 14px',
-            }}
-          >
-            {renaming ? '변경 중...' : '변경하기'}
-          </button>
-        </div>
-      </form>
-    </section>
-  </div>
-)}
 
   
 <div className="toast"><Sparkles size={16}/><span>{notice}</span></div><footer><span>✦</span> MADE WITH A LITTLE CHRISTMAS MAGIC <span>✦</span><p>당신의 작은 기여가 모두의 크리스마스를 완성합니다.</p></footer></main>
