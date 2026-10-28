@@ -31,21 +31,20 @@ body {
 .mini-brand {
   display: inline-flex;
   align-items: center;
-  justify-content: flex-start;
-  gap: 9px;
+  gap: 8px;
   padding-left: 16px;
-  font-family: Georgia, 'Gowun Batang', serif;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  line-height: 1.2;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  line-height: 1;
 }
 .mini-brand svg {
   display: block;
-  flex: 0 0 17px;
-  width: 17px;
-  height: 17px;
-  transform: translateY(-1px);
+  flex: 0 0 16px;
+  width: 16px;
+  height: 16px;
+  stroke-width: 1.5;
 }
 .season{opacity:.72}
 .hero{text-align:center;padding-top:30px;position:relative}
