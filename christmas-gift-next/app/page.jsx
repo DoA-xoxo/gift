@@ -306,13 +306,13 @@ async function submitAuth(e) {
 
 <section
   className="panel auth-panel"
-  style={{
-    width: '0%',
-    maxWidth: 'none',
-    boxSizing: 'border-box',
-    margin: '24px 0 28px',
-    padding: 12,
-  }}
+style={{
+  width: '100%',
+  maxWidth: 'none',
+  boxSizing: 'border-box',
+  margin: '24px 0 28px',
+  padding: '8px 12px',
+}}
 >
 
 
@@ -451,17 +451,19 @@ async function submitAuth(e) {
 ) : (
   <div
     className="auth-user-row"
-    style={{
-      marginTop: 4,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      gap: 8,
-      flexWrap: 'nowrap',
-      width: '0%',
-      minHeight: 40,
-      boxSizing: 'border-box',
-    }}
+style={{
+  marginTop: 0,
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  gap: 8,
+  flexWrap: 'nowrap',
+  width: '100%',
+  minWidth: 0,
+  minHeight: 40,
+  boxSizing: 'border-box',
+}}
   >
     <p
       style={{
