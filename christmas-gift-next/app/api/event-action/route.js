@@ -2,7 +2,10 @@
 import { createClient } from '@supabase/supabase-js';
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
-import { verifySessionToken } from '../../../lib/auth.js';
+import {
+  verifyAdminToken,
+  ADMIN_COOKIE_NAME,
+} from '../../../lib/admin-auth.js';
 
 export const runtime = 'nodejs';
 
@@ -140,6 +143,25 @@ export async function POST(request) {
         { error: '공유 데이터 저장에 실패했어요.' },
         { status: 500 }
       );
+    }
+
+    const logAction =
+      body?.action === 'contribute' ? 'contribute' : 'sabotage';
+
+    const logTeam =
+      logAction === 'contribute' ? body.team : body.target;
+
+    const { error: logError } = await supabase
+      .from('event_action_logs')
+      .insert({
+        nickname: session.nickname,
+        action: logAction,
+        team: logTeam,
+        points: body.points,
+      });
+
+    if (logError) {
+      console.error('Event action log failed:', logError.message);
     }
 
     return NextResponse.json({
