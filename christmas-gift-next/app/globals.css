@@ -610,7 +610,7 @@ body {
 .primary-button:hover:not(:disabled),
 .rename-button:hover:not(:disabled),
 .reset-button:hover:not(:disabled) {
-  background: #8c2323;
+  background: var(--christmas-red);
   border-color: var(--christmas-red);
 }
 
@@ -618,6 +618,10 @@ body {
 .primary-button.dark {
   background: var(--christmas-green);
   border-color: var(--christmas-green);
+}
+.primary-button.dark:hover:not(:disabled) {
+  background: #284330;
+  border-color: #284330;
 }
 
 .cancel-button {
