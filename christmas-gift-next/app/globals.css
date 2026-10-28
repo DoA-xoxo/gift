@@ -76,15 +76,8 @@ body {
   width: 420px;
   height: 320px;
   border-radius: 50%;
-background: radial-gradient(
-  ellipse,
-  #E8D9C0 0%,
-  #E8D9C080 25%,
-  #E8D9C040 45%,
-  transparent 65%
-);
-  
-  filter: blur(12px);
+  background: #E8D9C0;
+  filter: blur(40px);
   opacity: 0.3;
   pointer-events: none;
 }
