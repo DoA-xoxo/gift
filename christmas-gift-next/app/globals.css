@@ -393,18 +393,26 @@ body {
 }
 
 
-/* 선물 제작 진행도: 다른 카드와 같은 크림색 양식 */
+
+/* 선물 제작 진도: 일반 카드와 동일한 디자인 */
 .progress-wrap {
+  color: #34241b;
   background: linear-gradient(145deg, #fff6e5, #ead6b7);
   border: 1px solid #b68a4d;
   border-radius: 8px;
   box-shadow:
     inset 0 0 0 3px #f8e8cf,
-    inset 0 0 0 4px #c4a06c;
-  padding: 18px 22px 20px;
+    inset 0 0 0 4px #c4a06c,
+    0 10px 20px #0003;
+  padding: 20px;
 }
 
-/* 팀 아이콘은 문양만 버건디색으로 */
+/* 제목 색상 */
+.section-label {
+  color: #751515;
+}
+
+/* 팀 아이콘: 원형 배경 없이 버건디 문양만 */
 .team-icon {
   background: transparent;
   border: none;
@@ -412,16 +420,11 @@ body {
   color: #751515;
 }
 
-/* 아이콘의 원형 장식 제거 */
+/* 아이콘 주변 장식 제거 */
 .team-icon::before,
 .team-icon::after {
   content: none;
   display: none;
-}
-
-/* 제목 */
-.section-label {
-  color: #751515;
 }
 
 /* 팀 이름과 퍼센트 */
@@ -431,7 +434,7 @@ body {
   color: #4b2925;
 }
 
-/* 진행도 막대의 바탕만 정리하고 팀별 색상은 유지 */
+/* 진행도 막대 배경만 변경하고 팀별 색상은 유지 */
 .bar {
   background: #e5d4b8;
   border: none;
@@ -443,7 +446,7 @@ body {
   background-image: none;
 }
 
-/* 양옆 장식선 */
+/* 양옆 장식선: 골드 */
 .page:before,
 .page:after {
   background: #c6a56a;
