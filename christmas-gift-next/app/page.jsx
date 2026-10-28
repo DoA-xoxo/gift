@@ -111,9 +111,139 @@ useEffect(() => {
 }, [hydrated]);
 
  const active=TEAMS.find(t=>t.id===team); const totalPoints=useMemo(()=>Object.values(ranks).flat().find(r=>r.name===nickname)?.points||0,[ranks,nickname]);
- function contribute(){const n=Math.floor(Number(points));if(!Number.isFinite(n)||n<=0){setNotice('사용할 포인트를 1 이상 입력해 주세요.');return;}setProgress(p=>({...p,[team]:Math.min(100,+(p[team]+n/10).toFixed(1))}));setRanks(prev=>{const next={...prev,[team]:[...prev[team]]};const idx=next[team].findIndex(r=>r.name===nickname);if(idx>=0)next[team][idx]={...next[team][idx],points:next[team][idx].points+n};else next[team].push({name:nickname,points:n});next[team].sort((a,b)=>b.points-a.points);return next;});setNotice(`${active.name} 팀에 ${n.toLocaleString()} 포인트를 기여했어요! 제작도 +${(n/10).toFixed(1)}%`);}
- function sabotage(){const n=Math.floor(Number(sabotagePoints));if(!Number.isFinite(n)||n<=0){setNotice('방해할 포인트를 1 이상 입력해 주세요.');return;}setProgress(p=>({...p,[target]:Math.max(0,+(p[target]-n*0.05).toFixed(1))}));setNotice(`${TEAMS.find(t=>t.id===target).name} 팀 제작도가 ${(n*.05).toFixed(1)}% 감소했어요. 방해 포인트는 기여 순위에 포함되지 않아요.`);}
- function rename(){const from=oldName.trim(),to=newName.trim();if(!from||!to){setNotice('기존 닉네임과 변경할 닉네임을 모두 입력해 주세요.');return;}setRanks(prev=>{const out={...prev};for(const k of Object.keys(out)){out[k]=out[k].map(r=>r.name===from?{...r,name:to}:r);const merged={};out[k].forEach(r=>merged[r.name]=(merged[r.name]||0)+r.points);out[k]=Object.entries(merged).map(([name,points])=>({name,points})).sort((a,b)=>b.points-a.points);}return out;});if(nickname===from)setNickname(to);setOldName(to);setNewName('');setNotice(`닉네임이 ${to}(으)로 변경됐어요. 순위표에도 반영했습니다.`);}
+ 
+async function contribute() {
+  const n = Math.floor(Number(points));
+
+  if (!Number.isFinite(n) || n <= 0) {
+    setNotice('사용할 포인트를 1 이상 입력해 주세요.');
+    return;
+  }
+
+  const nextProgress = {
+    ...progress,
+    [team]: Math.min(100, +(progress[team] + n / 10).toFixed(1)),
+  };
+
+  const nextRanks = {
+    ...ranks,
+    [team]: [...(ranks[team] || [])],
+  };
+
+  const idx = nextRanks[team].findIndex(r => r.name === nickname);
+
+  if (idx >= 0) {
+    nextRanks[team][idx] = {
+      ...nextRanks[team][idx],
+      points: nextRanks[team][idx].points + n,
+    };
+  } else {
+    nextRanks[team].push({ name: nickname, points: n });
+  }
+
+  nextRanks[team].sort((a, b) => b.points - a.points);
+
+  setProgress(nextProgress);
+  setRanks(nextRanks);
+
+  try {
+    const response = await fetch('/api/event-state', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        progress: nextProgress,
+        ranks: nextRanks,
+      }),
+    });
+
+    if (!response.ok) throw new Error('저장 실패');
+
+    setNotice(
+      `${active.name} 팀에 ${n.toLocaleString()} 포인트를 기여했어요! 제작도 +${(n / 10).toFixed(1)}%`
+    );
+  } catch (error) {
+    console.error(error);
+    setNotice('저장에 실패했어요. 잠시 후 다시 시도해 주세요.');
+  }
+}
+
+async function sabotage() {
+  const n = Math.floor(Number(sabotagePoints));
+
+  if (!Number.isFinite(n) || n <= 0) {
+    setNotice('방해할 포인트를 1 이상 입력해 주세요.');
+    return;
+  }
+
+  const nextProgress = {
+    ...progress,
+    [target]: Math.max(0, +(progress[target] - n * 0.05).toFixed(1)),
+  };
+
+  setProgress(nextProgress);
+
+  try {
+    const response = await fetch('/api/event-state', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ progress: nextProgress, ranks }),
+    });
+
+    if (!response.ok) throw new Error('저장 실패');
+
+    setNotice(
+      `${TEAMS.find(t => t.id === target).name} 팀 제작도가 ${(n * 0.05).toFixed(1)}% 감소했어요. 방해 포인트는 기여 순위에 포함되지 않아요.`
+    );
+  } catch (error) {
+    console.error(error);
+    setNotice('저장에 실패했어요. 잠시 후 다시 시도해 주세요.');
+  }
+}
+
+async function rename() {
+  const from = oldName.trim();
+  const to = newName.trim();
+
+  if (!from || !to) {
+    setNotice('기존 닉네임과 변경할 닉네임을 모두 입력해 주세요.');
+    return;
+  }
+
+  const nextRanks = { ...ranks };
+
+  for (const k of Object.keys(nextRanks)) {
+    const merged = {};
+
+    (nextRanks[k] || []).forEach(r => {
+      const name = r.name === from ? to : r.name;
+      merged[name] = (merged[name] || 0) + r.points;
+    });
+
+    nextRanks[k] = Object.entries(merged)
+      .map(([name, points]) => ({ name, points }))
+      .sort((a, b) => b.points - a.points);
+  }
+
+  setRanks(nextRanks);
+
+  try {
+    const response = await fetch('/api/event-state', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ progress, ranks: nextRanks }),
+    });
+
+    if (!response.ok) throw new Error('저장 실패');
+
+    if (nickname === from) setNickname(to);
+    setOldName(to);
+    setNewName('');
+    setNotice(`닉네임이 ${to}(으)로 변경됐어요. 순위표에도 반영했습니다.`);
+  } catch (error) {
+    console.error(error);
+    setNotice('저장에 실패했어요. 잠시 후 다시 시도해 주세요.');
+  }
+}
  return <main className="page"><div className="snow s1">✦</div><div className="snow s2">❄</div><header className="topline"><div className="mini-brand"><Crown size={17}/>HODO THEATER</div></header><section className="hero"><div className="eyebrow"><Snowflake size={15}/> THE HOLIDAY MISSION <Snowflake size={15}/></div><h1>크리스마스 선물<br/><em>만들기 대작전</em></h1><p>각 팀이 힘을 모아 크리스마스 선물을 완성하세요.</p><div className="hero-art"><div className="glow"/><img src="/gift-box1.png" alt="빨간색 리본 크리스마스 선물 상자"/><span className="spark sp1">✧</span><span className="spark sp2">✦</span><span className="spark sp3">✧</span></div><div className="progress-wrap"><div className="section-label"><span/> 팀별 선물 제작도 <span/></div><div className="progress-grid">{TEAMS.map(t=><div className="progress-card" key={t.id}><div className="team-icon" style={{'--team':t.color}}>{t.icon}</div><div className="progress-info"><div className="progress-title"><b>{t.name} 팀</b><strong>{progress[t.id].toFixed(1)}%</strong></div><div className="bar"><span style={{width:`${progress[t.id]}%`,background:t.color}}/></div></div></div>)}</div></div></section>
  <section className="action-grid"><article className="panel contribution"><div className="panel-heading"><div className="heading-icon red"><Gift size={19}/></div><div><h2>기여하기</h2><p>선택한 팀의 선물 제작도를 올려요</p></div></div><label>참여 닉네임</label><input value={nickname} onChange={e=>setNickname(e.target.value)} placeholder="닉네임 입력"/><label>기여할 팀 선택</label><div className="team-buttons">{TEAMS.map(t=><button key={t.id} className={team===t.id?'chosen':''} style={{'--team':t.color}} onClick={()=>setTeam(t.id)}>{t.icon} {t.name}</button>)}</div><label>사용할 포인트</label><div className="point-input"><Coins size={17}/><input type="number" min="1" value={points} onChange={e=>setPoints(e.target.value)}/><span>P</span></div><p className="hint">10 포인트 사용 시 제작도 1% 증가</p><button className="primary-button" style={{'--team':active.color}} onClick={contribute}>선물 제작에 기여하기 <span>↗</span></button></article>
  <article className="panel sabotage"><div className="panel-heading"><div className="heading-icon green"><ShieldAlert size={19}/></div><div><h2>방해하기</h2><p>다른 팀의 제작도를 낮춰요</p></div></div><label>방해할 팀 선택</label><div className="team-buttons">{TEAMS.map(t=><button key={t.id} className={target===t.id?'chosen':''} style={{'--team':t.color}} onClick={()=>setTarget(t.id)}>{t.icon} {t.name}</button>)}</div><label>사용할 포인트</label><div className="point-input"><Coins size={17}/><input type="number" min="1" value={sabotagePoints} onChange={e=>setSabotagePoints(e.target.value)}/><span>P</span></div><p className="hint">10 포인트 사용 시 제작도 0.5% 감소</p><button className="primary-button dark" onClick={sabotage}>방해 작전 실행 <span>↗</span></button><p className="fineprint">※ 방해에 사용한 포인트는 기여 포인트에 집계되지 않습니다.</p></article>
