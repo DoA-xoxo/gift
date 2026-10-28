@@ -16,7 +16,7 @@ export async function POST(request) {
 
     if (
       typeof nickname !== 'string' ||
-      nickname.length < 2 ||
+      nickname.length < 1 ||
       nickname.length > 20 ||
       !/^[a-zA-Z0-9가-힣_-]+$/.test(nickname)
     ) {
@@ -28,7 +28,7 @@ export async function POST(request) {
 
     if (
       typeof password !== 'string' ||
-      password.length < 10 ||
+      password.length < 4 ||
       password.length > 128
     ) {
       return NextResponse.json(
