@@ -63,11 +63,28 @@ body {
   width: 280px;
   height: 270px;
   object-fit: contain;
-  filter: drop-shadow(0 12px 20px #0007);
+  filter: drop-shadow(0 12px 20px #0003);
 }
 /* 선물 뒤에서 퍼지는 따뜻한 빛 */
 .glow {
-  display: none;
+  display: block;
+  position: absolute;
+  z-index: 0;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 340px;
+  height: 250px;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse,
+    #FFFEF8 0%,
+    #FFFDF5CC 25%,
+    #F5EBDD80 50%,
+    transparent 75%
+  );
+  filter: blur(28px);
+  pointer-events: none;
 }
 
 .page::before,
