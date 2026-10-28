@@ -87,7 +87,7 @@ export async function POST(request) {
 
       progress[team] = Math.min(
         100,
-        +(progress[team] + points / 10).toFixed(1)
+        +(progress[team] + points * 0.05).toFixed(1)
       );
 
       const index = ranks[team].findIndex(
@@ -124,7 +124,7 @@ export async function POST(request) {
 
       progress[target] = Math.max(
         0,
-        +(progress[target] - points * 0.05).toFixed(1)
+        +(progress[target] - points * 0.01).toFixed(1)
       );
     } else {
       return NextResponse.json(
