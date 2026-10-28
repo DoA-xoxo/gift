@@ -131,29 +131,3 @@
     width: auto !important;
   }
 }
-
-/* 로그인 패널: 내부 요소를 세로 중앙에 배치 */
-.auth-panel {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 76px;
-  padding: 12px;
-  box-sizing: border-box;
-}
-
-.auth-controls {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  width: 100%;
-  margin: 0;
-}
-
-.auth-controls input,
-.auth-controls button {
-  margin-top: 0;
-  margin-bottom: 0;
-  height: 40px;
-  box-sizing: border-box;
-}
