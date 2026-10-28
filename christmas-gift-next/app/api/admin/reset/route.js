@@ -12,12 +12,20 @@ export async function POST(request) {
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
     const secretKey = process.env.SUPABASE_SECRET_KEY;
 
-    if (!adminPassword || !supabaseUrl || !secretKey) {
-      return NextResponse.json(
-        { error: '서버 환경변수를 확인해 주세요.' },
-        { status: 500 }
-      );
-    }
+const missing = [];
+
+if (!adminPassword) missing.push('ADMIN_PASSWORD');
+if (!supabaseUrl) missing.push('NEXT_PUBLIC_SUPABASE_URL');
+if (!secretKey) missing.push('SUPABASE_SECRET_KEY');
+
+if (missing.length > 0) {
+  return NextResponse.json(
+    {
+      error: '누락된 서버 환경변수: ' + missing.join(', '),
+    },
+    { status: 500 }
+  );
+}
 
     if (
       typeof password !== 'string' ||
