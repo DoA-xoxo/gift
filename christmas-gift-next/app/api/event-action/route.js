@@ -78,7 +78,7 @@ export async function POST(request) {
         points > MAX_CONTRIBUTION
       ) {
         return NextResponse.json(
-          { error: '팀 또는 기여 포인트가 올바르지 않아요. 한 번에 최대 1,000포인트까지 사용할 수 있어요.' },
+          { error: '팀 또는 기여 포인트가 올바르지 않아요. 한 번에 최대 1,000 포인트까지 사용할 수 있어요.' },
           { status: 400 }
         );
       }
@@ -115,7 +115,7 @@ export async function POST(request) {
         points > MAX_SABOTAGE
       ) {
         return NextResponse.json(
-          { error: '팀 또는 방해 포인트가 올바르지 않아요. 한 번에 최대 100포인트까지 사용할 수 있어요.' },
+          { error: '팀 또는 방해 포인트가 올바르지 않아요. 한 번에 최대 100 포인트까지 사용할 수 있어요.' },
           { status: 400 }
         );
       }
