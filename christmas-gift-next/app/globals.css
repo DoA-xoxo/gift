@@ -76,12 +76,13 @@ body {
   width: 420px;
   height: 320px;
   border-radius: 50%;
-  background: radial-gradient(
-    ellipse,
-    #FFFEFA 0%,
-    #FFFEFA 30%,
-    #FDF7EB 55%,
-    transparent 78%
+background: radial-gradient(
+  ellipse,
+  #F8F1E5 0%,
+  #F5EBDDCC 30%,
+  #F5EBDD70 55%,
+  transparent 75%
+);
   );
   filter: blur(12px);
   opacity: 1;
@@ -553,13 +554,13 @@ body {
   width: 420px;
   height: 320px;
   border-radius: 50%;
-  background: radial-gradient(
-    ellipse,
-    #FFFEFA 0%,
-    #FFFEFA 30%,
-    #FDF7EB 55%,
-    transparent 78%
-  );
+background: radial-gradient(
+  ellipse,
+  #F8F1E5 0%,
+  #F5EBDDCC 30%,
+  #F5EBDD70 55%,
+  transparent 75%
+);
   filter: blur(12px);
   opacity: 1;
   pointer-events: none;
