@@ -6,7 +6,7 @@ const initialRanks = { human: [], soldier: [], mouse: [] };
 const STORAGE_KEY='christmas-gift-event-v1';
 function App(){
  const [hydrated,setHydrated]=useState(false);
- const [nickname,setNickname]=useState(''); const [team,setTeam]=useState('human'); const [points,setPoints]=useState('100'); const [target,setTarget]=useState('soldier'); const [sabotagePoints,setSabotagePoints]=useState('10'); const [rankTeam,setRankTeam]=useState('human'); const [progress,setProgress]=useState({human:42.5,soldier:37.8,mouse:28.6}); const [ranks,setRanks]=useState(initialRanks); const [oldName,setOldName]=useState('크리스마스요정'); const [newName,setNewName]=useState(''); const [notice,setNotice]=useState('작은 기여가 모여 멋진 크리스마스 선물이 완성돼요!');
+ const [nickname,setNickname]=useState(''); const [team,setTeam]=useState('human'); const [points,setPoints]=useState('100'); const [target,setTarget]=useState('soldier'); const [sabotagePoints,setSabotagePoints]=useState('10'); const [rankTeam,setRankTeam]=useState('human'); const [progress,setProgress]=useState({human:42.5,soldier:37.8,mouse:28.6}); const [ranks,setRanks]=useState(initialRanks); const [oldName,setOldName]=useState(''); const [newName,setNewName]=useState(''); const [notice,setNotice]=useState('작은 기여가 모여 멋진 크리스마스 선물이 완성돼요!');
  const [authMode,setAuthMode]=useState('login');
  const [authNickname,setAuthNickname]=useState('');
  const [authPassword,setAuthPassword]=useState('');
@@ -320,6 +320,7 @@ async function submitAuth(e) {
     marginTop: 12,
     width: '100%',
     boxSizing: 'border-box',
+    minHeight: 44,
   }}>
     <div style={{ display: 'flex', gap: 4, flexShrink: 0 }}>
       <button
@@ -333,6 +334,7 @@ async function submitAuth(e) {
           color: authMode === 'login' ? '#fff' : '#6b5544',
           fontWeight: 700,
           cursor: 'pointer',
+          alignSelf: 'center'
         }}
       >
         로그인
@@ -341,6 +343,7 @@ async function submitAuth(e) {
         type="button"
         onClick={() => setAuthMode('register')}
         style={{
+          height: 40,
           padding: '9px 12px',
           borderRadius: 8,
           border: '1px solid #8b5e3c',
@@ -348,6 +351,8 @@ async function submitAuth(e) {
           color: authMode === 'register' ? '#fff' : '#6b5544',
           fontWeight: 700,
           cursor: 'pointer',
+          alignSelf: 'center',
+          whiteSpace: 'nowrap',
         }}
       >
         회원가입
@@ -367,6 +372,9 @@ async function submitAuth(e) {
         minWidth: 0,
         boxSizing: 'border-box',
         padding: '10px 12px',
+        alignSelf: 'center',
+        height: 40,
+        margin: 0,
       }}
     />
 
@@ -385,6 +393,9 @@ async function submitAuth(e) {
         minWidth: 0,
         boxSizing: 'border-box',
         padding: '10px 12px',
+        alignSelf: 'center',
+        height: 40,
+        margin: 0,
       }}
     />
 
@@ -400,6 +411,7 @@ async function submitAuth(e) {
       justifyContent: 'center',
       padding: '10px 16px',
       whiteSpace: 'nowrap',
+      alignSelf: 'center'
      }}
 
     >
@@ -416,20 +428,43 @@ async function submitAuth(e) {
 
   
     {loggedInNickname && (
-      <div style={{ marginTop: 16, display: 'grid', gap: 10 }}>
-        <p>
-          <strong>{loggedInNickname}</strong> 님, 메리 크리스마스!
-        </p>
+      <div 
+       style={{
+        marginTop: 4,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        gap: 12,
+        flexWrap: 'nowrap',
+        minHeight: 42,
+        width: '100%',
+        boxSizing: 'border-box',
+       }}
+       >
+<p style={{
+  margin: 0,
+  lineHeight: '40px',
+  minWidth: 0,
+}}>
+  <strong>{loggedInNickname}</strong> 님, 메리 크리스마스!
+</p>
         <button
           type="button"
           className="primary-button"
-          onClick={logout}
-          style={{
-            width: 'auto',
-            minWidth: 0,
-            padding: '8px 14px',
-            whiteSpace: 'nowrap',
-          }}
+          onClick={logout}          
+style={{
+  width: 'auto',
+  minWidth: 0,
+  flex: '0 0 auto',
+  height: 40,
+  margin: 0,
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: '0 16px',
+  whiteSpace: 'nowrap',
+}}
+
         >
           로그아웃
         </button>
@@ -453,17 +488,48 @@ async function submitAuth(e) {
   </div>
 
   <form
-    onSubmit={e => {
-      e.preventDefault();
-      setNotice('닉네임 변경 기능을 연결하는 중이에요.');
-    }}
-    style={{
-      display: 'flex',
-      gap: 8,
-      alignItems: 'center',
-      marginTop: 14,
-      flexWrap: 'wrap',
-    }}
+
+onSubmit={async e => {
+  e.preventDefault();
+
+  const form = e.currentTarget;
+  const input = form.querySelector('input');
+  const nextNickname = input?.value.trim();
+
+  if (!nextNickname) {
+    setNotice('새 닉네임을 입력해 주세요.');
+    return;
+  }
+
+  try {
+    setNotice('닉네임을 변경하고 있어요...');
+
+    const response = await fetch('/api/auth/rename', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'same-origin',
+      body: JSON.stringify({ nickname: nextNickname }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      setNotice(data.error || '닉네임 변경에 실패했어요.');
+      return;
+    }
+
+    setLoggedInNickname(data.nickname);
+    setNickname(data.nickname);
+    setOldName(data.nickname);
+    setNewName('');
+    input.value = '';
+
+    setNotice('닉네임이 성공적으로 변경됐어요! 🎄');
+  } catch (error) {
+    console.error('닉네임 변경 실패:', error);
+    setNotice('서버에 연결하지 못했어요. 잠시 후 다시 시도해 주세요.');
+  }
+}}
   >
     <input
       type="text"
