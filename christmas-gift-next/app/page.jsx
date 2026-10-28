@@ -435,11 +435,18 @@ async function submitAuth(e) {
       </button>
     </div>
 
-    {authMode === 'register' && (
-      <p className="hint" style={{ marginTop: 6 }}>
-        닉네임 1~20자, 비밀번호 4자 이상
-      </p>
-    )}
+{authMode === 'register' && (
+  <p
+    className="hint"
+    style={{
+      marginTop: 4,
+      marginBottom: 0,
+      lineHeight: 1.2,
+    }}
+  >
+    닉네임 1~20자, 비밀번호 4자 이상
+  </p>
+)}
   </form>
 ) : (
   <div
