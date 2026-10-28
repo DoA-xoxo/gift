@@ -63,7 +63,7 @@ body {
   width: 280px;
   height: 270px;
   object-fit: contain;
-  filter: drop-shadow(0 12px 20px #0002);
+  filter: drop-shadow(0 5px 10px #0002);
 }
 /* 선물 뒤의 밝은 크림색 빛 */
 .glow {
