@@ -328,7 +328,7 @@ style={{
         alignItems: 'center',
         gap: 8,
         marginTop: 0,
-        width: '0%',
+        width: '100%',
         boxSizing: 'border-box',
       }}
     >
