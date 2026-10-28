@@ -67,7 +67,10 @@ export async function POST(request) {
       !/^[a-zA-Z0-9가-힣_-]+$/.test(nickname)
     ) {
       return NextResponse.json(
-        { error: '닉네임은 한글, 영문, 숫자, _ 또는 -로 1~20자 입력해 주세요.' },
+        {
+          error:
+            '닉네임은 한글, 영문, 숫자, _ 또는 -로 1~20자 입력해 주세요.',
+        },
         { status: 400 }
       );
     }
@@ -88,6 +91,7 @@ export async function POST(request) {
       );
     }
 
+    // 기존 계정 확인
     const { data: user, error: findError } = await supabase
       .from('event_users')
       .select('nickname')
@@ -96,16 +100,21 @@ export async function POST(request) {
 
     if (findError || !user) {
       return NextResponse.json(
-        { error: '계정 정보를 찾을 수 없어요. 다시 로그인해 주세요.' },
+        {
+          error:
+            '계정 정보를 찾을 수 없어요. 다시 로그인해 주세요.',
+        },
         { status: 404 }
       );
     }
 
-    const { data: duplicate, error: duplicateError } = await supabase
-      .from('event_users')
-      .select('nickname')
-      .eq('nickname', nickname)
-      .maybeSingle();
+    // 닉네임 중복 확인
+    const { data: duplicate, error: duplicateError } =
+      await supabase
+        .from('event_users')
+        .select('nickname')
+        .eq('nickname', nickname)
+        .maybeSingle();
 
     if (duplicateError) {
       return NextResponse.json(
@@ -121,11 +130,13 @@ export async function POST(request) {
       );
     }
 
-    const { data: stateRow, error: stateError } = await supabase
-      .from('event_state')
-      .select('state')
-      .eq('id', 1)
-      .single();
+    // 현재 랭킹 데이터 조회
+    const { data: stateRow, error: stateError } =
+      await supabase
+        .from('event_state')
+        .select('state')
+        .eq('id', 1)
+        .single();
 
     if (stateError || !stateRow?.state) {
       return NextResponse.json(
@@ -135,12 +146,14 @@ export async function POST(request) {
     }
 
     const state = stateRow.state;
+
     const ranks = {
       human: [...(state.ranks?.human || [])],
       soldier: [...(state.ranks?.soldier || [])],
       mouse: [...(state.ranks?.mouse || [])],
     };
 
+    // 모든 팀의 랭킹에 표시되는 닉네임 변경
     for (const team of Object.keys(ranks)) {
       ranks[team] = ranks[team].map(item =>
         item.name === session.nickname
@@ -149,6 +162,7 @@ export async function POST(request) {
       );
     }
 
+    // 1. 계정 닉네임 변경
     const { error: updateUserError } = await supabase
       .from('event_users')
       .update({ nickname })
@@ -168,24 +182,27 @@ export async function POST(request) {
       );
     }
 
-    const { error: saveStateError } = await supabase
-      .from('event_state')
-      .update({ state: { ...state, ranks } })
-      .eq('id', 1);
-
-
-    // 작업 기록의 닉네임도 함께 변경
-    const { data: updatedLogs, error: updateLogsError } = await supabase
-      .from('event_action_logs')
-      .update({ nickname })
-      .eq('nickname', session.nickname)
-      .select('id');
+    // 2. 작업 기록의 닉네임 변경
+    const { data: updatedLogs, error: updateLogsError } =
+      await supabase
+        .from('event_action_logs')
+        .update({ nickname })
+        .eq('nickname', session.nickname)
+        .select('id');
 
     if (updateLogsError) {
-      await supabase
+      // 계정 닉네임 복구
+      const { error: rollbackUserError } = await supabase
         .from('event_users')
         .update({ nickname: session.nickname })
         .eq('nickname', nickname);
+
+      if (rollbackUserError) {
+        console.error(
+          'Nickname rollback failed:',
+          rollbackUserError
+        );
+      }
 
       return NextResponse.json(
         { error: '작업 기록의 닉네임 변경에 실패했어요.' },
@@ -193,34 +210,60 @@ export async function POST(request) {
       );
     }
 
-    const updatedLogIds = (updatedLogs || []).map(log => log.id);
+    const updatedLogIds = (updatedLogs || []).map(
+      log => log.id
+    );
 
+    // 3. 랭킹 상태 저장 (한 번만 실행)
     const { error: saveStateError } = await supabase
       .from('event_state')
-      .update({ state: { ...state, ranks } })
+      .update({
+        state: {
+          ...state,
+          ranks,
+        },
+      })
       .eq('id', 1);
 
     if (saveStateError) {
-      // 이번 요청에서 변경한 작업 기록만 원래 닉네임으로 복구
+      // 이번 요청에서 변경한 작업 기록만 복구
       if (updatedLogIds.length > 0) {
-        await supabase
+        const { error: rollbackLogsError } = await supabase
           .from('event_action_logs')
           .update({ nickname: session.nickname })
           .in('id', updatedLogIds);
+
+        if (rollbackLogsError) {
+          console.error(
+            'Action logs rollback failed:',
+            rollbackLogsError
+          );
+        }
       }
 
-      await supabase
+      // 계정 닉네임 복구
+      const { error: rollbackUserError } = await supabase
         .from('event_users')
         .update({ nickname: session.nickname })
         .eq('nickname', nickname);
 
+      if (rollbackUserError) {
+        console.error(
+          'Nickname rollback failed:',
+          rollbackUserError
+        );
+      }
+
       return NextResponse.json(
-        { error: '랭킹 저장에 실패해 변경을 취소했어요. 다시 시도해 주세요.' },
+        {
+          error:
+            '랭킹 저장에 실패했어요. 변경 상태를 확인한 후 다시 시도해 주세요.',
+        },
         { status: 500 }
       );
     }
 
-
+    // 모든 변경 성공 후 새 세션 발급
     const response = NextResponse.json({
       success: true,
       nickname,
