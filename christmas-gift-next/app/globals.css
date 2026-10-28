@@ -58,15 +58,12 @@ body {
   isolation: isolate;
 }
 .hero-art img {
-  display: block;
-  width: 150px;
-  height: 150px;
-  min-width: 0;
-  min-height: 0;
-  max-width: 150px;
-  max-height: 150px;
+  position: relative;
+  z-index: 1;
+  width: 280px;
+  height: 270px;
   object-fit: contain;
-  flex: none;
+  filter: drop-shadow(0 12px 20px #0007);
 }
 /* 선물 뒤에서 퍼지는 따뜻한 빛 */
 .glow {
