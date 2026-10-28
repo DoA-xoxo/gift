@@ -3,7 +3,7 @@
 import { createClient } from '@supabase/supabase-js';
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
-import { verifySessionToken } from '../../../lib/auth-session.js';
+import { verifySessionToken } from '../../../lib/auth.js';
 
 export const runtime = 'nodejs';
 
