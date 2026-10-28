@@ -7,6 +7,10 @@ const STORAGE_KEY='christmas-gift-event-v1';
 function App(){
  const [hydrated,setHydrated]=useState(false);
  const [nickname,setNickname]=useState(''); const [team,setTeam]=useState('human'); const [points,setPoints]=useState('100'); const [target,setTarget]=useState('soldier'); const [sabotagePoints,setSabotagePoints]=useState('10'); const [rankTeam,setRankTeam]=useState('human'); const [progress,setProgress]=useState({human:42.5,soldier:37.8,mouse:28.6}); const [ranks,setRanks]=useState(initialRanks); const [oldName,setOldName]=useState('크리스마스요정'); const [newName,setNewName]=useState(''); const [notice,setNotice]=useState('작은 기여가 모여 멋진 크리스마스 선물이 완성돼요!');
+ const [authMode,setAuthMode]=useState('login');
+ const [authNickname,setAuthNickname]=useState('');
+ const [authPassword,setAuthPassword]=useState('');
+ const [loggedInNickname,setLoggedInNickname]=useState('');
 
  useEffect(() => {
   let cancelled = false;
@@ -112,95 +116,94 @@ useEffect(() => {
 
  const active=TEAMS.find(t=>t.id===team); const totalPoints=useMemo(()=>Object.values(ranks).flat().find(r=>r.name===nickname)?.points||0,[ranks,nickname]);
  
-async function contribute() {
-  const n = Math.floor(Number(points));
+async function submitAuth(e) {
+   e.preventDefault();
+   const cleanNickname = authNickname.trim();
+   if (!cleanNickname || !authPassword) {
+     setNotice('닉네임과 비밀번호를 입력해 주세요.');
+     return;
+   }
 
-  if (!Number.isFinite(n) || n <= 0) {
-    setNotice('사용할 포인트를 1 이상 입력해 주세요.');
-    return;
-  }
+   try {
+     const endpoint = authMode === 'register' ? '/api/auth/register' : '/api/auth/login';
+     const response = await fetch(endpoint, {
+       method: 'POST',
+       headers: { 'Content-Type': 'application/json' },
+       body: JSON.stringify({ nickname: cleanNickname, password: authPassword }),
+     });
+     const data = await response.json().catch(() => ({}));
+     if (!response.ok) throw new Error(data.error || (authMode === 'register' ? '회원가입에 실패했어요.' : '로그인에 실패했어요.'));
 
-  const nextProgress = {
-    ...progress,
-    [team]: Math.min(100, +(progress[team] + n / 10).toFixed(1)),
-  };
+     if (authMode === 'register') {
+       setAuthMode('login');
+       setAuthPassword('');
+       setNotice('회원가입이 완료됐어요! 같은 닉네임과 비밀번호로 로그인해 주세요.');
+     } else {
+       setLoggedInNickname(cleanNickname);
+       setNickname(cleanNickname);
+       setAuthPassword('');
+       setNotice(`${cleanNickname}님, 로그인했어요! 이제 포인트를 사용할 수 있어요.`);
+     }
+   } catch (error) {
+     setNotice(error.message || '요청을 처리하지 못했어요.');
+   }
+ }
 
-  const nextRanks = {
-    ...ranks,
-    [team]: [...(ranks[team] || [])],
-  };
+ async function contribute() {
+   const n = Math.floor(Number(points));
+   if (!loggedInNickname) {
+     setNotice('먼저 회원가입 후 로그인해 주세요.');
+     return;
+   }
+   if (!Number.isFinite(n) || n <= 0) {
+     setNotice('사용할 포인트를 1 이상 입력해 주세요.');
+     return;
+   }
 
-  const idx = nextRanks[team].findIndex(r => r.name === nickname);
+   try {
+     const response = await fetch('/api/event-action', {
+       method: 'POST',
+       headers: { 'Content-Type': 'application/json' },
+       body: JSON.stringify({ action: 'contribute', team, points: n }),
+     });
+     const data = await response.json().catch(() => ({}));
+     if (!response.ok) throw new Error(data.error || '저장에 실패했어요.');
+     setProgress(data.progress);
+     setRanks(data.ranks);
+     setNotice(`${active.name} 팀에 ${n.toLocaleString()} 포인트를 기여했어요! 제작도가 서버에 반영됐어요.`);
+   } catch (error) {
+     setNotice(error.message || '저장에 실패했어요. 잠시 후 다시 시도해 주세요.');
+   }
+ }
+ 
+ async function sabotage() {
+   const n = Math.floor(Number(sabotagePoints));
+   if (!loggedInNickname) {
+     setNotice('먼저 회원가입 후 로그인해 주세요.');
+     return;
+   }
+   if (!Number.isFinite(n) || n <= 0) {
+     setNotice('방해할 포인트를 1 이상 입력해 주세요.');
+     return;
+   }
 
-  if (idx >= 0) {
-    nextRanks[team][idx] = {
-      ...nextRanks[team][idx],
-      points: nextRanks[team][idx].points + n,
-    };
-  } else {
-    nextRanks[team].push({ name: nickname, points: n });
-  }
+   try {
+     const response = await fetch('/api/event-action', {
+       method: 'POST',
+       headers: { 'Content-Type': 'application/json' },
+       body: JSON.stringify({ action: 'sabotage', target, points: n }),
+     });
+     const data = await response.json().catch(() => ({}));
+     if (!response.ok) throw new Error(data.error || '저장에 실패했어요.');
+     setProgress(data.progress);
+     setRanks(data.ranks);
+     setNotice(`${TEAMS.find(t => t.id === target).name} 팀 제작도 변경 사항이 서버에 반영됐어요.`);
+   } catch (error) {
+     setNotice(error.message || '저장에 실패했어요. 잠시 후 다시 시도해 주세요.');
+   }
+ }
 
-  nextRanks[team].sort((a, b) => b.points - a.points);
-
-  setProgress(nextProgress);
-  setRanks(nextRanks);
-
-  try {
-    const response = await fetch('/api/event-state', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        progress: nextProgress,
-        ranks: nextRanks,
-      }),
-    });
-
-    if (!response.ok) throw new Error('저장 실패');
-
-    setNotice(
-      `${active.name} 팀에 ${n.toLocaleString()} 포인트를 기여했어요! 제작도 +${(n / 10).toFixed(1)}%`
-    );
-  } catch (error) {
-    console.error(error);
-    setNotice('저장에 실패했어요. 잠시 후 다시 시도해 주세요.');
-  }
-}
-
-async function sabotage() {
-  const n = Math.floor(Number(sabotagePoints));
-
-  if (!Number.isFinite(n) || n <= 0) {
-    setNotice('방해할 포인트를 1 이상 입력해 주세요.');
-    return;
-  }
-
-  const nextProgress = {
-    ...progress,
-    [target]: Math.max(0, +(progress[target] - n * 0.05).toFixed(1)),
-  };
-
-  setProgress(nextProgress);
-
-  try {
-    const response = await fetch('/api/event-state', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ progress: nextProgress, ranks }),
-    });
-
-    if (!response.ok) throw new Error('저장 실패');
-
-    setNotice(
-      `${TEAMS.find(t => t.id === target).name} 팀 제작도가 ${(n * 0.05).toFixed(1)}% 감소했어요. 방해 포인트는 기여 순위에 포함되지 않아요.`
-    );
-  } catch (error) {
-    console.error(error);
-    setNotice('저장에 실패했어요. 잠시 후 다시 시도해 주세요.');
-  }
-}
-
-async function rename() {
+ async function rename() {
   const from = oldName.trim();
   const to = newName.trim();
 
@@ -244,11 +247,31 @@ async function rename() {
     setNotice('저장에 실패했어요. 잠시 후 다시 시도해 주세요.');
   }
 }
- return <main className="page"><div className="snow s1">✦</div><div className="snow s2">❄</div><header className="topline"><div className="mini-brand"><Crown size={17}/>HODO THEATER</div></header><section className="hero"><div className="eyebrow"><Snowflake size={15}/> THE HOLIDAY MISSION <Snowflake size={15}/></div><h1>크리스마스 선물<br/><em>만들기 대작전</em></h1><p>각 팀이 힘을 모아 크리스마스 선물을 완성하세요.</p><div className="hero-art"><div className="glow"/><img src="/gift-box1.png" alt="빨간색 리본 크리스마스 선물 상자"/><span className="spark sp1">✧</span><span className="spark sp2">✦</span><span className="spark sp3">✧</span></div><div className="progress-wrap"><div className="section-label"><span/> 팀별 선물 제작도 <span/></div><div className="progress-grid">{TEAMS.map(t=><div className="progress-card" key={t.id}><div className="team-icon" style={{'--team':t.color}}>{t.icon}</div><div className="progress-info"><div className="progress-title"><b>{t.name} 팀</b><strong>{progress[t.id].toFixed(1)}%</strong></div><div className="bar"><span style={{width:`${progress[t.id]}%`,background:t.color}}/></div></div></div>)}</div></div></section>
- <section className="action-grid"><article className="panel contribution"><div className="panel-heading"><div className="heading-icon red"><Gift size={19}/></div><div><h2>기여하기</h2><p>선택한 팀의 선물 제작도를 올려요</p></div></div><label>참여 닉네임</label><input value={nickname} onChange={e=>setNickname(e.target.value)} placeholder="닉네임 입력"/><label>기여할 팀 선택</label><div className="team-buttons">{TEAMS.map(t=><button key={t.id} className={team===t.id?'chosen':''} style={{'--team':t.color}} onClick={()=>setTeam(t.id)}>{t.icon} {t.name}</button>)}</div><label>사용할 포인트</label><div className="point-input"><Coins size={17}/><input type="number" min="1" value={points} onChange={e=>setPoints(e.target.value)}/><span>P</span></div><p className="hint">10 포인트 사용 시 제작도 1% 증가</p><button className="primary-button" style={{'--team':active.color}} onClick={contribute}>선물 제작에 기여하기 <span>↗</span></button></article>
+  return <main className="page"><div className="snow s1">✦</div><div className="snow s2">❄</div><header className="topline"><div className="mini-brand"><Crown size={17}/>HODO THEATER</div></header><section className="hero"><div className="eyebrow"><Snowflake size={15}/> THE HOLIDAY MISSION <Snowflake size={15}/></div><h1>크리스마스 선물<br/><em>만들기 대작전</em></h1><p>각 팀이 힘을 모아 크리스마스 선물을 완성하세요.</p><div className="hero-art"><div className="glow"/><img src="/gift-box1.png" alt="빨간색 리본 크리스마스 선물 상자"/><span className="spark sp1">✧</span><span className="spark sp2">✦</span><span className="spark sp3">✧</span></div><div className="progress-wrap"><div className="section-label"><span/> 팀별 선물 제작도 <span/></div><div className="progress-grid">{TEAMS.map(t=><div className="progress-card" key={t.id}><div className="team-icon" style={{'--team':t.color}}>{t.icon}</div><div className="progress-info"><div className="progress-title"><b>{t.name} 팀</b><strong>{progress[t.id].toFixed(1)}%</strong></div><div className="bar"><span style={{width:`${progress[t.id]}%`,background:t.color}}/></div></div></div>)}</div></div></section>
+ <section className="panel auth-panel" style={{maxWidth:720,margin:'0 auto 28px',padding:24}}>
+    <div className="panel-heading">
+      <div className="heading-icon gold"><Crown size={19}/></div>
+      <div><h2>{loggedInNickname ? `${loggedInNickname}님 로그인 중` : '참가자 로그인'}</h2><p>{loggedInNickname ? '로그인한 닉네임으로 기여 기록이 저장돼요.' : '닉네임과 비밀번호로 가입하거나 로그인해 주세요.'}</p></div>
+    </div>
+    {!loggedInNickname && <form onSubmit={submitAuth}>
+      <div style={{display:'grid',gap:10,marginTop:16}}>
+        <div className="rank-tabs">
+          <button type="button" className={authMode==='login'?'active':''} onClick={()=>setAuthMode('login')}>로그인</button>
+          <button type="button" className={authMode==='register'?'active':''} onClick={()=>setAuthMode('register')}>회원가입</button>
+        </div>
+        <label>닉네임</label>
+        <input value={authNickname} onChange={e=>setAuthNickname(e.target.value)} autoComplete="username" maxLength={20} placeholder="사용할 닉네임" />
+        <label>비밀번호</label>
+        <input type="password" value={authPassword} onChange={e=>setAuthPassword(e.target.value)} autoComplete={authMode==='register'?'new-password':'current-password'} minLength={authMode==='register'?10:1} maxLength={128} placeholder={authMode==='register'?'10자 이상 입력해 주세요':'비밀번호 입력'} />
+        {authMode==='register' && <p className="hint">닉네임은 2~20자, 비밀번호는 10자 이상으로 만들어 주세요.</p>}
+        <button type="submit" className="primary-button">{authMode==='register'?'회원가입하기':'로그인하기'} <span>↗</span></button>
+      </div>
+    </form>}
+  </section>
+  <section className="action-grid"><article className="panel contribution"><div className="panel-heading"><div className="heading-icon red"><Gift size={19}/></div><div><h2>기여하기</h2><p>선택한 팀의 선물 제작도를 올려요</p></div></div><label>참여 닉네임</label><input value={loggedInNickname || ""} readOnly placeholder="먼저 로그인해 주세요"/><label>기여할 팀 선택</label><div className="team-buttons">{TEAMS.map(t=><button key={t.id} className={team===t.id?'chosen':''} style={{'--team':t.color}} onClick={()=>setTeam(t.id)}>{t.icon} {t.name}</button>)}</div><label>사용할 포인트</label><div className="point-input"><Coins size={17}/><input type="number" min="1" value={points} onChange={e=>setPoints(e.target.value)}/><span>P</span></div><p className="hint">10 포인트 사용 시 제작도 1% 증가</p><button className="primary-button" style={{'--team':active.color}} onClick={contribute}>선물 제작에 기여하기 <span>↗</span></button></article>
  <article className="panel sabotage"><div className="panel-heading"><div className="heading-icon green"><ShieldAlert size={19}/></div><div><h2>방해하기</h2><p>다른 팀의 제작도를 낮춰요</p></div></div><label>방해할 팀 선택</label><div className="team-buttons">{TEAMS.map(t=><button key={t.id} className={target===t.id?'chosen':''} style={{'--team':t.color}} onClick={()=>setTarget(t.id)}>{t.icon} {t.name}</button>)}</div><label>사용할 포인트</label><div className="point-input"><Coins size={17}/><input type="number" min="1" value={sabotagePoints} onChange={e=>setSabotagePoints(e.target.value)}/><span>P</span></div><p className="hint">10 포인트 사용 시 제작도 0.5% 감소</p><button className="primary-button dark" onClick={sabotage}>방해 작전 실행 <span>↗</span></button><p className="fineprint">※ 방해에 사용한 포인트는 기여 포인트에 집계되지 않습니다.</p></article>
  <article className="panel ranking"><div className="panel-heading"><div className="heading-icon gold"><Trophy size={19}/></div><div><h2>팀별 순위 보드</h2><p>우리 팀의 기여자를 확인하세요</p></div></div><div className="rank-tabs">{TEAMS.map(t=><button key={t.id} onClick={()=>setRankTeam(t.id)} className={rankTeam===t.id?'active':''} style={{'--team':t.color}}>{t.name}</button>)}</div><div className="rank-head"><span>순위</span><span>닉네임</span><span>기여 포인트</span></div><div className="rank-list">{[...(ranks[rankTeam]||[])].sort((a,b)=>b.points-a.points).slice(0,8).map((r,i)=><div className={'rank-row '+(r.name===nickname?'me':'')} key={r.name}><span className="rank-num">{i===0?'♛':String(i+1).padStart(2,'0')}</span><span className="rank-name">{r.name}{r.name===nickname&&<small>ME</small>}</span><strong>{r.points.toLocaleString()} <small>P</small></strong></div>)}</div><div className="rank-foot"><span>TEAM CONTRIBUTION</span><span>{TEAMS.find(t=>t.id===rankTeam).name} TEAM</span></div></article></section>
- <section className="panel rename-panel"><div className="rename-title"><div className="heading-icon gold"><Pencil size={18}/></div><div><h2>닉네임 변경</h2><p>변경한 이름은 순위표와 기여 집계에 반영돼요.</p></div></div><div className="rename-fields"><div><label>기존 닉네임</label><input value={oldName} onChange={e=>setOldName(e.target.value)} placeholder="기존 닉네임"/></div><span className="arrow">→</span><div><label>변경할 닉네임</label><input value={newName} onChange={e=>setNewName(e.target.value)} placeholder="새 닉네임 입력"/></div><button className="rename-button" onClick={rename}>변경 완료</button></div></section><div className="toast"><Sparkles size={16}/><span>{notice}</span></div><footer><span>✦</span> MADE WITH A LITTLE CHRISTMAS MAGIC <span>✦</span><p>당신의 작은 기여가 모두의 크리스마스를 완성합니다.</p></footer></main>
+ <section className="panel rename-panel"><div className="rename-title"><div className="heading-icon gold"><Pencil size={18}/></div><div><h2>닉네임 변경</h2><p>계정과 랭킹을 안전하게 함께 변경하는 기능은 아직 준비 중이에요.</p></div></div></section><div className="toast"><Sparkles size={16}/><span>{notice}</span></div><footer><span>✦</span> MADE WITH A LITTLE CHRISTMAS MAGIC <span>✦</span><p>당신의 작은 기여가 모두의 크리스마스를 완성합니다.</p></footer></main>
 }
 
 export default App;
