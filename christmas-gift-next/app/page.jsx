@@ -301,7 +301,7 @@ async function submitAuth(e) {
 }
  return <main className="page"><div className="snow s1">✧</div><div className="snow s2">✦</div><section className="hero"><div className="eyebrow"><Snowflake size={15}/> THE HOLIDAY MISSION <Snowflake size={15}/></div>
 <img
-  src="/title.png"
+  src="/title1.png"
   alt="크리스마스 선물 만들기 대작전"
   className="title-image"
 />
