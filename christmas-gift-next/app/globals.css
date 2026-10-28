@@ -752,3 +752,21 @@ footer p {
   background: #24513F;
   color: #FFF7EC;
 }
+@media (max-width: 600px) {
+  .auth-user-row {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 10px !important;
+  }
+
+  .auth-user-row > p {
+    width: 100%;
+    flex: none !important;
+    white-space: nowrap;
+  }
+
+  .auth-user-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
