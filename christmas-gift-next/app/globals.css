@@ -752,22 +752,44 @@ footer p {
   background: #24513F;
   color: #FFF7EC;
 }
+
 @media (max-width: 600px) {
   .auth-user-row {
     flex-direction: column !important;
     align-items: stretch !important;
-    gap: 10px !important;
+    gap: 12px !important;
   }
 
+  /* 인사 문구: 가운데 정렬 + 위아래 여백 */
   .auth-user-row > p {
     width: 100%;
     flex: none !important;
-    white-space: nowrap;
     text-align: center;
+    white-space: nowrap;
+    padding: 10px 0;
+    box-sizing: border-box;
   }
 
+  /* 버튼 두 개를 둘째 줄에 나란히 배치 */
   .auth-user-actions {
+    display: flex !important;
     width: 100%;
-    justify-content: flex-end;
+    justify-content: center;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  /* 두 버튼의 너비를 동일하게 */
+  .auth-user-actions .primary-button {
+    flex: 1 1 0 !important;
+    width: 0 !important;
+    min-width: 0;
+    height: 44px !important;
+    padding: 0 8px !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    white-space: nowrap;
   }
 }
