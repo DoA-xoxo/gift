@@ -83,6 +83,7 @@ background: radial-gradient(
   #E8D9C040 45%,
   transparent 65%
 );
+  
   filter: blur(12px);
   opacity: 0.3;
   pointer-events: none;
