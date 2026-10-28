@@ -29,11 +29,21 @@ body {
   right: 5px;
 }
 .mini-brand {
-  font-family: Georgia, 'Gowun Batang', serif !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: Georgia, 'Gowun Batang', serif;
   font-size: 13px;
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.03em;
+  line-height: 1;
   padding-left: 16px;
+}
+.mini-brand svg {
+  display: block;
+  flex-shrink: 0;
+  width: 17px;
+  height: 17px;
 }
 .season{opacity:.72}
 .hero{text-align:center;padding-top:30px;position:relative}
