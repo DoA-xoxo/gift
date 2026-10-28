@@ -92,7 +92,7 @@ body {
 .sp2{right:23%;top:38%;font-size:18px}
 .sp3{left:29%;bottom:19%;font-size:15px}
 .progress-wrap{border:1px solid #a77c43;border-radius:9px;background:linear-gradient(120deg,#2a1510,#1b100d);padding:18px 22px 20px;box-shadow:inset 0 0 0 3px #5b351e,0 8px 24px #0004}
-.section-label{display:flex;justify-content:center;align-items:center;gap:14px;color:#e9d7b6;font-family:'Gowun Batang',serif;font-size:15px;margin-bottom:16px}
+.section-label{display:flex;justify-content:center;align-items:center;gap:14px;color:#e9d7b6;font-family: Arial, "Noto Sans KR", sans-serif;font-size:15px;margin-bottom:16px}
 .section-label span{height:1px;width:32px;background:#9d7542}
 .progress-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
 .progress-card{display:flex;align-items:center;gap:12px;min-width:0}
