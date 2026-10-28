@@ -317,8 +317,6 @@ async function submitAuth(e) {
       </div>
     </form>}
   
-    </form>}
-
     {loggedInNickname && (
       <div style={{ marginTop: 16, display: 'grid', gap: 10 }}>
         <p>
