@@ -469,3 +469,8 @@ body {
   background: #c6a56a;
   opacity: 0.85;
 }
+
+.panel form {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
