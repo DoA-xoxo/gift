@@ -305,7 +305,7 @@ async function submitAuth(e) {
   className="panel auth-panel"
   style={{
     width: '100%',
-    maxWidth: none,
+    maxWidth: 'none',
     boxSizing: 'border-box',
     margin: '24px 0 28px',
     padding: 12,
