@@ -12,6 +12,32 @@ function App(){
  const [authPassword,setAuthPassword]=useState('');
  const [loggedInNickname,setLoggedInNickname]=useState('');
 
+ // Restore the signed-in nickname from the HttpOnly session cookie on page load.
+ useEffect(() => {
+  let cancelled = false;
+
+  async function restoreSession() {
+    try {
+      const response = await fetch('/api/auth/me', { credentials: 'same-origin' });
+      if (!response.ok) return;
+
+      const data = await response.json();
+      if (!cancelled && data.loggedIn && data.nickname) {
+        setLoggedInNickname(data.nickname);
+        setNickname(data.nickname);
+      }
+    } catch (error) {
+      console.error('로그인 상태를 확인하지 못했습니다.', error);
+    }
+  }
+
+  restoreSession();
+
+  return () => {
+    cancelled = true;
+  };
+ }, []);
+
  useEffect(() => {
   let cancelled = false;
 
@@ -132,7 +158,7 @@ async function submitAuth(e) {
        body: JSON.stringify({ nickname: cleanNickname, password: authPassword }),
      });
      const data = await response.json().catch(() => ({}));
-     if (!response.ok) throw new Error(data.error || (authMode === 'register' ? '회원가입에 실패했어요.' : '로그인에 실패했어요.'));
+         if (!response.ok) throw new Error(data.error || (authMode === 'register' ? '회원가입에 실패했어요.' : '로그인에 실패했어요.'));
 
      if (authMode === 'register') {
        setAuthMode('login');
@@ -175,7 +201,7 @@ async function submitAuth(e) {
      setNotice(error.message || '저장에 실패했어요. 잠시 후 다시 시도해 주세요.');
    }
  }
- 
+
  async function sabotage() {
    const n = Math.floor(Number(sabotagePoints));
    if (!loggedInNickname) {
@@ -247,7 +273,7 @@ async function submitAuth(e) {
     setNotice('저장에 실패했어요. 잠시 후 다시 시도해 주세요.');
   }
 }
-  return <main className="page"><div className="snow s1">✦</div><div className="snow s2">❄</div><header className="topline"><div className="mini-brand"><Crown size={17}/>HODO THEATER</div></header><section className="hero"><div className="eyebrow"><Snowflake size={15}/> THE HOLIDAY MISSION <Snowflake size={15}/></div><h1>크리스마스 선물<br/><em>만들기 대작전</em></h1><p>각 팀이 힘을 모아 크리스마스 선물을 완성하세요.</p><div className="hero-art"><div className="glow"/><img src="/gift-box1.png" alt="빨간색 리본 크리스마스 선물 상자"/><span className="spark sp1">✧</span><span className="spark sp2">✦</span><span className="spark sp3">✧</span></div><div className="progress-wrap"><div className="section-label"><span/> 팀별 선물 제작도 <span/></div><div className="progress-grid">{TEAMS.map(t=><div className="progress-card" key={t.id}><div className="team-icon" style={{'--team':t.color}}>{t.icon}</div><div className="progress-info"><div className="progress-title"><b>{t.name} 팀</b><strong>{progress[t.id].toFixed(1)}%</strong></div><div className="bar"><span style={{width:`${progress[t.id]}%`,background:t.color}}/></div></div></div>)}</div></div></section>
+ return <main className="page"><div className="snow s1">✦</div><div className="snow s2">❄</div><header className="topline"><div className="mini-brand"><Crown size={17}/>HODO THEATER</div></header><section className="hero"><div className="eyebrow"><Snowflake size={15}/> THE HOLIDAY MISSION <Snowflake size={15}/></div><h1>크리스마스 선물<br/><em>만들기 대작전</em></h1><p>각 팀이 힘을 모아 크리스마스 선물을 완성하세요.</p><div className="hero-art"><div className="glow"/><img src="/gift-box1.png" alt="빨간색 리본 크리스마스 선물 상자"/><span className="spark sp1">✧</span><span className="spark sp2">✦</span><span className="spark sp3">✧</span></div><div className="progress-wrap"><div className="section-label"><span/> 팀별 선물 제작도 <span/></div><div className="progress-grid">{TEAMS.map(t=><div className="progress-card" key={t.id}><div className="team-icon" style={{'--team':t.color}}>{t.icon}</div><div className="progress-info"><div className="progress-title"><b>{t.name} 팀</b><strong>{progress[t.id].toFixed(1)}%</strong></div><div className="bar"><span style={{width:`${progress[t.id]}%`,background:t.color}}/></div></div></div>)}</div></div></section>
  <section className="panel auth-panel" style={{maxWidth:720,margin:'0 auto 28px',padding:24}}>
     <div className="panel-heading">
       <div className="heading-icon gold"><Crown size={19}/></div>
