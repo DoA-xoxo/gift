@@ -121,7 +121,15 @@ export async function POST(request) {
           { status: 400 }
         );
       }
-
+      
+  // 제작도가 100%인 팀은 방해할 수 없음
+  if (progress[target] >= 100) {
+    return NextResponse.json(
+      { error: '이미 선물 제작을 완료한 팀은 방해할 수 없어요! 🎁' },
+      { status: 400 }
+    );
+  }
+      
       progress[target] = Math.max(
         0,
         +(progress[target] - points * 0.01).toFixed(1)
