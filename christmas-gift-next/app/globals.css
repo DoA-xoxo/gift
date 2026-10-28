@@ -31,19 +31,21 @@ body {
 .mini-brand {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
+  justify-content: flex-start;
+  gap: 9px;
+  padding-left: 16px;
   font-family: Georgia, 'Gowun Batang', serif;
   font-size: 13px;
   font-weight: 700;
-  letter-spacing: 0.03em;
-  line-height: 1;
-  padding-left: 16px;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
 }
 .mini-brand svg {
   display: block;
-  flex-shrink: 0;
+  flex: 0 0 17px;
   width: 17px;
   height: 17px;
+  transform: translateY(-1px);
 }
 .season{opacity:.72}
 .hero{text-align:center;padding-top:30px;position:relative}
