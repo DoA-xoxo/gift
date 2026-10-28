@@ -475,11 +475,56 @@ body {
 /* 양옆 장식선: 골드 */
 .page:before,
 .page:after {
-  background: #c6a56a;
+  background: #D6B878;
   opacity: 0.85;
 }
 
 .panel form {
   margin-bottom: 0;
   padding-bottom: 0;
+}
+
+
+/* 크리스마스 장식: 샴페인 골드 통일 */
+:root {
+  --christmas-gold: #D6B878;
+  --christmas-gold-light: #F0D69B;
+  --christmas-gold-dark: #9E793B;
+}
+
+/* 양쪽 세로 장식선 */
+.page:before,
+.page:after {
+  background: var(--christmas-gold);
+  opacity: 0.85;
+}
+
+/* 반짝이 장식 */
+.spark {
+  color: var(--christmas-gold-light);
+}
+
+/* 작은 별 장식 */
+.snow {
+  color: #E8D9B5;
+}
+
+/* 제목 위의 장식 문구 */
+.eyebrow {
+  color: var(--christmas-gold);
+}
+
+/* 섹션 제목 양옆의 가로선 */
+.section-label span {
+  background: var(--christmas-gold-dark);
+}
+
+/* 푸터의 장식선 */
+footer {
+  border-top-color: var(--christmas-gold-dark);
+}
+
+/* 푸터의 작은 장식 */
+footer span {
+  color: var(--christmas-gold-light);
 }
