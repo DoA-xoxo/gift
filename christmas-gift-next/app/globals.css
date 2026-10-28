@@ -78,10 +78,10 @@ body {
   border-radius: 50%;
 background: radial-gradient(
   ellipse,
-  #F5EBDD80 0%,
-  #F5EBDD50 30%,
-  #F5EBDD25 55%,
-  transparent 60%
+  #E8D9C0 0%,
+  #E8D9C080 25%,
+  #E8D9C040 45%,
+  transparent 65%
 );
   );
   filter: blur(12px);
@@ -556,10 +556,10 @@ body {
   border-radius: 50%;
 background: radial-gradient(
   ellipse,
-  #F5EBDD80 0%,
-  #F5EBDD50 30%,
-  #F5EBDD25 55%,
-  transparent 60%
+  #E8D9C0 0%,
+  #E8D9C080 25%,
+  #E8D9C040 45%,
+  transparent 65%
 );
   filter: blur(12px);
   opacity: 1;
