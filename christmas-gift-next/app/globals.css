@@ -28,7 +28,12 @@ body {
 .page:after {
   right: 5px;
 }
-.mini-brand{display:flex;gap:8px;align-items:center;font-weight:700;padding-left: 16px;}
+.mini-brand {
+  font-family: Georgia, 'Gowun Batang', serif !important;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
 .season{opacity:.72}
 .hero{text-align:center;padding-top:30px;position:relative}
 .eyebrow{display:flex;gap:12px;justify-content:center;align-items:center;color:#d5b675;font-size:10px;letter-spacing:3px}
