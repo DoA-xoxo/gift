@@ -1,5 +1,122 @@
 @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap');
-:root{font-family:'Noto Sans KR',sans-serif;color:#f9ecd4;background:#160b09;font-synthesis:none;font-optical-sizing:auto}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% 5%,#492018 0,#1d100c 44%,#0f0908 100%);min-height:100vh}.page{max-width:1160px;margin:auto;padding:24px 28px 32px;position:relative;overflow:hidden}.page:before,.page:after{content:'';position:absolute;top:0;bottom:0;width:8px;background:linear-gradient(90deg,#4a2113,#b57c36,#442014);opacity:.8}.page:before{left:5px}.page:after{right:5px}.topline{display:flex;justify-content:space-between;align-items:center;color:#d6b878;font-size:10px;letter-spacing:2.8px;border-bottom:1px solid #77512e;padding:0 8px 13px}.mini-brand{display:flex;gap:8px;align-items:center;font-weight:700}.season{opacity:.72}.hero{text-align:center;padding-top:30px;position:relative}.eyebrow{display:flex;gap:12px;justify-content:center;align-items:center;color:#d5b675;font-size:10px;letter-spacing:3px}.hero h1{font-family:'Gowun Batang',serif;font-size:clamp(38px,6vw,68px);line-height:1.18;letter-spacing:-2px;margin:13px 0 10px;color:#f8e8c5;text-shadow:0 3px 0 #6b301b,0 0 25px #c58b4a44}.hero h1 em{font-style:normal;color:#d9a65e}.hero>p{font-size:13px;color:#c9b9a0;margin:0}.hero-art{height:280px;position:relative;display:flex;justify-content:center;align-items:center;margin:0 auto;max-width:600px}.hero-art img{position:relative;z-index:1;width:280px;height:270px;object-fit:contain;filter:drop-shadow(0 15px 18px #0009)}.glow{position:absolute;width:320px;height:220px;background:#dca9571c;filter:blur(45px);border-radius:50%}.spark{position:absolute;color:#f0cc80;font-size:25px}.sp1{left:23%;top:28%}.sp2{right:23%;top:38%;font-size:18px}.sp3{left:29%;bottom:19%;font-size:15px}.progress-wrap{border:1px solid #a77c43;border-radius:9px;background:linear-gradient(120deg,#2a1510,#1b100d);padding:18px 22px 20px;box-shadow:inset 0 0 0 3px #5b351e,0 8px 24px #0004}.section-label{display:flex;justify-content:center;align-items:center;gap:14px;color:#e9d7b6;font-family:'Gowun Batang',serif;font-size:15px;margin-bottom:16px}.section-label span{height:1px;width:32px;background:#9d7542}.progress-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}.progress-card{display:flex;align-items:center;gap:12px;min-width:0}.team-icon{flex:none;width:49px;height:49px;border-radius:50%;border:1px solid #d3ad6b;background:radial-gradient(circle at 30% 20%,#6a3b22,#21100c);display:grid;place-items:center;font-size:23px;box-shadow:0 0 0 3px #382017}.progress-info{flex:1;min-width:0}.progress-title{display:flex;justify-content:space-between;align-items:center;font-size:13px;margin-bottom:8px}.progress-title strong{color:#f5dfb3;font-size:14px}.bar{height:9px;background:#100a08;border:1px solid #69452c;border-radius:99px;overflow:hidden}.bar span{display:block;height:100%;border-radius:99px;transition:width .3s}.action-grid{display:grid;grid-template-columns:1fr 1fr 1.05fr;gap:16px;margin-top:18px}.panel{color:#34241b;background:linear-gradient(145deg,#fff6e5,#ead6b7);border:1px solid #b68a4d;border-radius:8px;box-shadow:inset 0 0 0 3px #f8e8cf,inset 0 0 0 4px #c4a06c,0 10px 20px #0003;padding:20px}.panel-heading{display:flex;align-items:center;gap:10px;margin-bottom:20px}.panel-heading h2,.rename-title h2{font-family:'Gowun Batang',serif;font-size:21px;margin:0 0 3px;color:#48271b}.panel-heading p,.rename-title p{font-size:11px;color:#8c7156;margin:0}.heading-icon{width:37px;height:37px;display:grid;place-items:center;border-radius:50%;flex:none}.heading-icon.red{background:#f4d8cd;color:#a52822}.heading-icon.green{background:#d4e6d4;color:#246b43}.heading-icon.gold{background:#f2e0b8;color:#98652a}.panel label{display:block;font-size:12px;font-weight:700;margin:13px 0 7px;color:#5b3a27}.panel input{width:100%;border:1px solid #d5b995;border-radius:5px;background:#fffaf2;padding:11px 12px;font:inherit;font-size:13px;color:#38271d;outline:none}.panel input:focus{border-color:#9a632e;box-shadow:0 0 0 2px #c69d6540}.team-buttons{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.team-buttons button,.rank-tabs button{border:1px solid color-mix(in srgb,var(--team),white 20%);background:color-mix(in srgb,var(--team),white 90%);color:var(--team);border-radius:5px;padding:10px 4px;font:inherit;font-size:12px;font-weight:700;cursor:pointer;transition:.15s}.team-buttons button.chosen{background:var(--team);color:white;box-shadow:inset 0 0 0 2px #ffffff55,0 3px 8px #0002}.point-input{display:flex;align-items:center;gap:9px;border:1px solid #d5b995;border-radius:5px;background:#fffaf2;padding:0 10px;color:#b88737}.point-input input{border:0;background:transparent;padding:10px 0;box-shadow:none!important}.point-input span{font-size:12px;color:#92775b}.hint{font-size:10px;color:#92795f;margin:7px 0 14px}.primary-button,.rename-button{width:100%;border:1px solid #d8b16f;border-radius:5px;padding:12px;background:var(--team,#a92b23);color:#fff7e6;font:inherit;font-size:13px;font-weight:700;cursor:pointer;box-shadow:inset 0 0 0 2px #ffffff2c}.primary-button span{float:right}.primary-button.dark{--team:#185238;background:#185238}.fineprint{font-size:10px;color:#8b735b;line-height:1.6;margin:10px 0 0}.rank-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin:0 0 12px}.rank-tabs button{padding:8px 4px}.rank-tabs button.active{background:var(--team);color:white}.rank-head,.rank-row{display:grid;grid-template-columns:42px 1fr 85px;align-items:center;gap:6px}.rank-head{font-size:10px;color:#8b7258;border-bottom:1px solid #d7c1a1;padding:8px 5px}.rank-head span:last-child{text-align:right}.rank-list{min-height:195px}.rank-row{padding:11px 5px;border-bottom:1px solid #e5d3b7;font-size:11px}.rank-row.me{background:#f4e0b4;border-radius:4px}.rank-num{font-family:Georgia,serif;color:#9c7544;text-align:center;font-size:13px}.rank-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.rank-name small{font-size:8px;margin-left:5px;background:#8e2b20;color:white;padding:2px 4px;border-radius:2px}.rank-row strong{text-align:right;font-size:11px}.rank-row strong small{color:#9b7958;font-size:9px}.rank-foot{display:flex;justify-content:space-between;border-top:1px solid #c6a77e;padding-top:12px;margin-top:8px;color:#99764c;font-size:9px;letter-spacing:1px}.rename-panel{margin-top:16px;display:flex;align-items:center;justify-content:space-between;gap:22px;padding:18px 22px}.rename-title{display:flex;align-items:center;gap:10px;min-width:240px}.rename-fields{display:flex;align-items:end;gap:12px;flex:1}.rename-fields>div{flex:1;min-width:0}.rename-fields label{margin-top:0}.rename-fields input{padding:10px;font-size:12px}.arrow{padding-bottom:11px;color:#ad8c60}.rename-button{width:auto;min-width:100px;background:#9f2822}.toast{display:flex;justify-content:center;align-items:center;gap:8px;color:#e2c58c;font-size:11px;text-align:center;min-height:42px;padding:8px 0}footer{text-align:center;border-top:1px solid #67452b;padding-top:17px;color:#a98b5e;font-size:9px;letter-spacing:2px}footer span{color:#d4ae6b;margin:0 8px}footer p{letter-spacing:0;color:#88725b;font-size:10px;margin:8px 0 0}.snow{position:absolute;color:#e4c98988;pointer-events:none}.s1{top:170px;right:8%;font-size:25px}.s2{top:330px;left:7%;font-size:18px}@media(max-width:850px){.page{padding:18px 17px 25px}.action-grid{grid-template-columns:1fr 1fr}.ranking{grid-column:1/-1}.rank-list{min-height:0}.rename-panel{align-items:flex-start;flex-direction:column}.rename-fields{width:100%}.hero-art{height:245px}.hero-art img{height:235px;width:240px}}@media(max-width:560px){.page{padding:14px 12px 22px}.season{font-size:8px;letter-spacing:1px}.hero{padding-top:24px}.hero h1{font-size:40px}.hero>p{font-size:11px;line-height:1.6}.hero-art{height:220px}.hero-art img{height:210px;width:215px}.progress-wrap{padding:14px 10px}.progress-grid{grid-template-columns:1fr;gap:13px}.progress-card{max-width:100%}.team-icon{width:42px;height:42px}.action-grid{grid-template-columns:1fr}.ranking{grid-column:auto}.panel{padding:17px}.panel-heading h2{font-size:19px}.rename-fields{display:grid;grid-template-columns:1fr}.rename-fields .arrow{display:none}.rename-button{width:100%;padding:12px}.rename-title{min-width:0}.rank-row{padding:10px 5px}.toast{line-height:1.6}.mini-brand{letter-spacing:1px}}
+:root{font-family:'Noto Sans KR',sans-serif;color:#f9ecd4;background:#160b09;font-synthesis:none;font-optical-sizing:auto}*{box-sizing:border-box}
+body {
+  margin: 0;
+  background: radial-gradient(
+    ellipse at 50% 5%,
+    #4a211b 0%,
+    #291012 44%,
+    #10090a 100%
+  );
+  min-height: 100vh;
+}
+
+.page{max-width:1160px;margin:auto;padding:24px 28px 32px;position:relative;overflow:hidden}
+.page:before,
+.page:after{content:'';position:absolute;top:0;bottom:0;width:8px;background:linear-gradient(90deg,#4a2113,#b57c36,#442014);opacity:.8}
+.page:before{left:5px}
+.page:after{right:5px}.topline{display:flex;justify-content:space-between;align-items:center;color:#d6b878;font-size:10px;letter-spacing:2.8px;border-bottom:1px solid #77512e;padding:0 8px 13px}
+.mini-brand{display:flex;gap:8px;align-items:center;font-weight:700}
+.season{opacity:.72}
+.hero{text-align:center;padding-top:30px;position:relative}
+.eyebrow{display:flex;gap:12px;justify-content:center;align-items:center;color:#d5b675;font-size:10px;letter-spacing:3px}
+.hero h1{font-family:'Gowun Batang',serif;font-size:clamp(38px,6vw,68px);line-height:1.18;letter-spacing:-2px;margin:13px 0 10px;color:#f8e8c5;text-shadow:0 3px 0 #6b301b,0 0 25px #c58b4a44}
+.hero h1 em{font-style:normal;color:#d9a65e}
+.hero>p{font-size:13px;color:#c9b9a0;margin:0}
+.hero-art{height:280px;position:relative;display:flex;justify-content:center;align-items:center;margin:0 auto;max-width:600px}
+.hero-art img{position:relative;z-index:1;width:280px;height:270px;object-fit:contain;filter:drop-shadow(0 15px 18px #0009)}
+.glow{position:absolute;width:320px;height:220px;background:#dca9571c;filter:blur(45px);border-radius:50%}
+.spark{position:absolute;color:#f0cc80;font-size:25px}
+.sp1{left:23%;top:28%}
+.sp2{right:23%;top:38%;font-size:18px}
+.sp3{left:29%;bottom:19%;font-size:15px}
+.progress-wrap{border:1px solid #a77c43;border-radius:9px;background:linear-gradient(120deg,#2a1510,#1b100d);padding:18px 22px 20px;box-shadow:inset 0 0 0 3px #5b351e,0 8px 24px #0004}
+.section-label{display:flex;justify-content:center;align-items:center;gap:14px;color:#e9d7b6;font-family:'Gowun Batang',serif;font-size:15px;margin-bottom:16px}
+.section-label span{height:1px;width:32px;background:#9d7542}
+.progress-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.progress-card{display:flex;align-items:center;gap:12px;min-width:0}
+.team-icon{flex:none;width:49px;height:49px;border-radius:50%;border:1px solid #d3ad6b;background:radial-gradient(circle at 30% 20%,#6a3b22,#21100c);display:grid;place-items:center;font-size:23px;box-shadow:0 0 0 3px #382017}
+.progress-info{flex:1;min-width:0}
+.progress-title{display:flex;justify-content:space-between;align-items:center;font-size:13px;margin-bottom:8px}
+.progress-title strong{color:#f5dfb3;font-size:14px}
+.bar{height:9px;background:#100a08;border:1px solid #69452c;border-radius:99px;overflow:hidden}
+.bar span{display:block;height:100%;border-radius:99px;transition:width .3s}
+.action-grid{display:grid;grid-template-columns:1fr 1fr 1.05fr;gap:16px;margin-top:18px}
+.panel{color:#34241b;background:linear-gradient(145deg,#fff6e5,#ead6b7);border:1px solid #b68a4d;border-radius:8px;box-shadow:inset 0 0 0 3px #f8e8cf,inset 0 0 0 4px #c4a06c,0 10px 20px #0003;padding:20px}
+.panel-heading{display:flex;align-items:center;gap:10px;margin-bottom:20px}
+.panel-heading h2,.rename-title h2{font-family:'Gowun Batang',serif;font-size:21px;margin:0 0 3px;color:#48271b}
+.panel-heading p,.rename-title p{font-size:11px;color:#8c7156;margin:0}
+.heading-icon{width:37px;height:37px;display:grid;place-items:center;border-radius:50%;flex:none}
+.heading-icon.red{background:#f4d8cd;color:#a52822}
+.heading-icon.green{background:#d4e6d4;color:#246b43}
+.heading-icon.gold{background:#f2e0b8;color:#98652a}
+.panel label{display:block;font-size:12px;font-weight:700;margin:13px 0 7px;color:#5b3a27}
+.panel input{width:100%;border:1px solid #d5b995;border-radius:5px;background:#fffaf2;padding:11px 12px;font:inherit;font-size:13px;color:#38271d;outline:none}
+.panel input:focus{border-color:#9a632e;box-shadow:0 0 0 2px #c69d6540}
+.team-buttons{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.team-buttons button,.rank-tabs button{border:1px solid color-mix(in srgb,var(--team),white 20%);background:color-mix(in srgb,var(--team),white 90%);color:var(--team);border-radius:5px;padding:10px 4px;font:inherit;font-size:12px;font-weight:700;cursor:pointer;transition:.15s}
+.team-buttons button.chosen{background:var(--team);color:white;box-shadow:inset 0 0 0 2px #ffffff55,0 3px 8px #0002}
+.point-input{display:flex;align-items:center;gap:9px;border:1px solid #d5b995;border-radius:5px;background:#fffaf2;padding:0 10px;color:#b88737}
+.point-input input{border:0;background:transparent;padding:10px 0;box-shadow:none!important}.point-input span{font-size:12px;color:#92775b}
+.hint{font-size:10px;color:#92795f;margin:7px 0 14px}
+.primary-button,.rename-button{width:100%;border:1px solid #d8b16f;border-radius:5px;padding:12px;background:var(--team,#a92b23);color:#fff7e6;font:inherit;font-size:13px;font-weight:700;cursor:pointer;box-shadow:inset 0 0 0 2px #ffffff2c}
+.primary-button span{float:right}
+.primary-button.dark{--team:#185238;background:#185238}
+.fineprint{font-size:10px;color:#8b735b;line-height:1.6;margin:10px 0 0}
+.rank-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin:0 0 12px}
+.rank-tabs button{padding:8px 4px}
+.rank-tabs button.active{background:var(--team);color:white}
+.rank-head,.rank-row{display:grid;grid-template-columns:42px 1fr 85px;align-items:center;gap:6px}
+.rank-head{font-size:10px;color:#8b7258;border-bottom:1px solid #d7c1a1;padding:8px 5px}
+.rank-head span:last-child{text-align:right}
+.rank-list{min-height:195px}
+.rank-row{padding:11px 5px;border-bottom:1px solid #e5d3b7;font-size:11px}
+.rank-row.me{background:#f4e0b4;border-radius:4px}
+.rank-num{font-family:Georgia,serif;color:#9c7544;text-align:center;font-size:13px}
+.rank-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rank-name small{font-size:8px;margin-left:5px;background:#8e2b20;color:white;padding:2px 4px;border-radius:2px}
+.rank-row strong{text-align:right;font-size:11px}
+.rank-row strong small{color:#9b7958;font-size:9px}
+.rank-foot{display:flex;justify-content:space-between;border-top:1px solid #c6a77e;padding-top:12px;margin-top:8px;color:#99764c;font-size:9px;letter-spacing:1px}
+.rename-panel{margin-top:16px;display:flex;align-items:center;justify-content:space-between;gap:22px;padding:18px 22px}
+.rename-title{display:flex;align-items:center;gap:10px;min-width:240px}
+.rename-fields{display:flex;align-items:end;gap:12px;flex:1}
+.rename-fields>div{flex:1;min-width:0}.rename-fields label{margin-top:0}
+.rename-fields input{padding:10px;font-size:12px}.arrow{padding-bottom:11px;color:#ad8c60}
+.rename-button{width:auto;min-width:100px;background:#9f2822}
+.toast{display:flex;justify-content:center;align-items:center;gap:8px;color:#e2c58c;font-size:11px;text-align:center;min-height:42px;padding:8px 0}footer{text-align:center;border-top:1px solid #67452b;padding-top:17px;color:#a98b5e;font-size:9px;letter-spacing:2px}footer span{color:#d4ae6b;margin:0 8px}footer p{letter-spacing:0;color:#88725b;font-size:10px;margin:8px 0 0}
+.snow{position:absolute;color:#e4c98988;pointer-events:none}
+.s1{top:170px;right:8%;font-size:25px}
+.s2{top:330px;left:7%;font-size:18px}@media(max-width:850px){.page{padding:18px 17px 25px}
+                                                             .action-grid{grid-template-columns:1fr 1fr}
+                                                             .ranking{grid-column:1/-1}
+                                                             .rank-list{min-height:0}
+                                                             .rename-panel{align-items:flex-start;flex-direction:column}
+                                                             .rename-fields{width:100%}
+                                                             .hero-art{height:245px}
+                                                             .hero-art img{height:235px;width:240px}}@media(max-width:560px){.page{padding:14px 12px 22px}
+                                                                                                                             .season{font-size:8px;letter-spacing:1px}
+                                                                                                                             .hero{padding-top:24px}
+                                                                                                                             .hero h1{font-size:40px}
+                                                                                                                             .hero>p{font-size:11px;line-height:1.6}
+                                                                                                                             .hero-art{height:220px}
+                                                                                                                             .hero-art img{height:210px;width:215px}
+                                                                                                                             .progress-wrap{padding:14px 10px}
+                                                                                                                             .progress-grid{grid-template-columns:1fr;gap:13px}
+                                                                                                                             .progress-card{max-width:100%}
+                                                                                                                             .team-icon{width:42px;height:42px}
+                                                                                                                             .action-grid{grid-template-columns:1fr}
+                                                                                                                             .ranking{grid-column:auto}
+                                                                                                                             .panel{padding:17px}
+                                                                                                                             .panel-heading h2{font-size:19px}
+                                                                                                                             .rename-fields{display:grid;grid-template-columns:1fr}
+                                                                                                                             .rename-fields 
+                                                                                                                             .arrow{display:none}
+                                                                                                                             .rename-button{width:100%;padding:12px}
+                                                                                                                             .rename-title{min-width:0}
+                                                                                                                             .rank-row{padding:10px 5px}
+                                                                                                                             .toast{line-height:1.6}
+                                                                                                                             .mini-brand{letter-spacing:1px}}
 
 /* 로그인 패널과 입력 요소 정렬 */
 .auth-panel {
@@ -130,4 +247,75 @@
     flex: 0 0 auto !important;
     width: auto !important;
   }
+}
+
+
+
+/* 크리스마스 테마: 버건디 레드 + 샴페인 골드 */
+:root {
+  --christmas-red: #751515;
+  --christmas-red-hover: #4f0c0c;
+  --christmas-gold: #d6b878;
+  --christmas-ivory: #fff6e5;
+  --christmas-green: #185238;
+}
+
+/* 주요 버튼 */
+.primary-button,
+.rename-button,
+.reset-button {
+  background: var(--christmas-red);
+  border: 1px solid var(--christmas-gold);
+  color: var(--christmas-ivory);
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+/* 마우스를 올렸을 때 */
+.primary-button:hover:not(:disabled),
+.rename-button:hover:not(:disabled),
+.reset-button:hover:not(:disabled) {
+  background: var(--christmas-red-hover);
+  border-color: #f0d69b;
+  box-shadow: 0 4px 12px #0003;
+}
+
+/* 버튼을 누르는 순간 */
+.primary-button:active:not(:disabled),
+.rename-button:active:not(:disabled),
+.reset-button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+/* 비활성 버튼 */
+.primary-button:disabled,
+.rename-button:disabled,
+.reset-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* 기존 초록색 강조 버튼도 테마에 맞게 통일 */
+.primary-button.dark {
+  --team: var(--christmas-red);
+  background: var(--christmas-red);
+}
+
+/* 관리자 페이지 초기화 버튼 */
+.reset-button {
+  color: var(--christmas-ivory);
+}
+
+/* 취소 버튼은 크림색 유지 */
+.cancel-button {
+  background: #fff6e5;
+  color: #5b3a27;
+  border: 1px solid #c6a77e;
+}
+
+.cancel-button:hover:not(:disabled) {
+  background: #f2e0c1;
 }
