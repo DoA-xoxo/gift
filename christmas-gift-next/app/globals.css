@@ -188,6 +188,10 @@ body {
 .auth-panel {
   width: 100%;
   max-width: none;
+  box-sizing: border-box;
+  padding: 12px;
+  height: auto;
+  min-height: 0;
 }
 
 .auth-controls {
@@ -250,10 +254,15 @@ body {
 /* 로그인 상태의 닉네임/버튼 정렬 */
 .auth-user-row {
   display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
   align-items: center;
+  justify-content: space-between;
   gap: 8px;
   width: 100%;
+  height: auto;
   min-height: 40px;
+  box-sizing: border-box;
 }
 
 .auth-user-row > p {
@@ -265,11 +274,11 @@ body {
 }
 
 .auth-user-row > button {
-  width: auto;
   flex: 0 0 auto;
+  width: auto;
   height: 40px;
   margin: 0;
-  padding: 0 12px;
+  padding: 0 10px;
   white-space: nowrap;
 }
 
@@ -279,7 +288,7 @@ body {
   }
 
   .auth-user-row > button {
-    padding: 0 7px;
+    padding: 0 6px;
     font-size: 11px;
   }
 }
