@@ -470,55 +470,50 @@ body {
   --muted-ink: #827365;
 }
 
-/* 1. 페이지 배경: 빈티지 딥 그린 */
+/* 1. 페이지 배경: 종이색 */
 :root {
   color: var(--paper);
-  background: #142B23;
+  background: #F5EBDD;
 }
 
 body {
-  background:
-    radial-gradient(
-      ellipse at 50% 8%,
-      #2C5543 0%,
-      #1D3B2F 35%,
-      #142B23 72%,
-      #10231C 100%
-    );
+  margin: 0;
+  color: #3B3028;
+  background: #F5EBDD;
 }
 
-/* 2. 양쪽 장식선: 금색 대신 종이색 */
+/* 2. 양쪽 장식선: 금색 대신 붉은색 */
 .page:before,
 .page:after {
-  background: var(--paper-shadow);
+  background: var(--christmas-red-hover);
   opacity: 0.75;
 }
 
 /* 3. 제목과 장식 */
 .hero h1 {
-  color: var(--paper);
-  text-shadow: 0 2px 0 #10231C;
+  color: var(--christmas-green);
+  text-shadow: 0 2px 0 #24513F;
 }
 
 .hero h1 em {
-  color: #D98A83;
+  color: #24513F;
 }
 
 .eyebrow {
-  color: #E7DCC8;
+  color: #24513F;
 }
 
 .hero > p {
-  color: #D8D0C1;
+  color: #24513F;
 }
 
 .spark {
-  color: #F5EBDD;
+  color: #812C30;
   opacity: 0.85;
 }
 
 .snow {
-  color: #F5EBDD;
+  color: #812C30;
 }
 
 /* 4. 선물 주변 빛: 따뜻한 크림색 */
@@ -700,12 +695,7 @@ footer p {
 
 /* 12. 관리자 화면 */
 .admin-page {
-  background: radial-gradient(
-    ellipse at 50% 10%,
-    #2C5543 0%,
-    #1D3B2F 42%,
-    #142B23 100%
-  );
+  background: #F5EBDD;
   color: var(--paper);
 }
 
