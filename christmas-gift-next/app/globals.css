@@ -610,7 +610,7 @@ body {
 .primary-button:hover:not(:disabled),
 .rename-button:hover:not(:disabled),
 .reset-button:hover:not(:disabled) {
-  background: var(--christmas-red-hover);
+  background: #8c2323;
   border-color: #812C30;
 }
 
