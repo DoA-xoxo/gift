@@ -194,7 +194,7 @@ async function submitAuth(e) {
        setLoggedInNickname(cleanNickname);
        setNickname(cleanNickname);
        setAuthPassword('');
-       setNotice(`${cleanNickname}님, 로그인했어요! 이제 포인트를 사용할 수 있어요.`);
+       setNotice(`${cleanNickname} 님, 로그인했어요! 이제 포인트를 사용할 수 있어요.`);
      }
    } catch (error) {
      setNotice(error.message || '요청을 처리하지 못했어요.');
