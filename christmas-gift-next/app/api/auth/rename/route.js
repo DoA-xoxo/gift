@@ -173,7 +173,42 @@ export async function POST(request) {
       .update({ state: { ...state, ranks } })
       .eq('id', 1);
 
+
+    // 작업 기록의 닉네임도 함께 변경
+    const { data: updatedLogs, error: updateLogsError } = await supabase
+      .from('event_action_logs')
+      .update({ nickname })
+      .eq('nickname', session.nickname)
+      .select('id');
+
+    if (updateLogsError) {
+      await supabase
+        .from('event_users')
+        .update({ nickname: session.nickname })
+        .eq('nickname', nickname);
+
+      return NextResponse.json(
+        { error: '작업 기록의 닉네임 변경에 실패했어요.' },
+        { status: 500 }
+      );
+    }
+
+    const updatedLogIds = (updatedLogs || []).map(log => log.id);
+
+    const { error: saveStateError } = await supabase
+      .from('event_state')
+      .update({ state: { ...state, ranks } })
+      .eq('id', 1);
+
     if (saveStateError) {
+      // 이번 요청에서 변경한 작업 기록만 원래 닉네임으로 복구
+      if (updatedLogIds.length > 0) {
+        await supabase
+          .from('event_action_logs')
+          .update({ nickname: session.nickname })
+          .in('id', updatedLogIds);
+      }
+
       await supabase
         .from('event_users')
         .update({ nickname: session.nickname })
@@ -184,6 +219,7 @@ export async function POST(request) {
         { status: 500 }
       );
     }
+
 
     const response = NextResponse.json({
       success: true,
