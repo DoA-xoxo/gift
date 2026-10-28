@@ -78,7 +78,7 @@ body {
   border-radius: 50%;
   background: #E8D9C0;
   filter: blur(40px);
-  opacity: 0.3;
+  opacity: 0.5;
   pointer-events: none;
 }
 
