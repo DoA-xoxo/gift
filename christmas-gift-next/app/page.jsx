@@ -297,17 +297,24 @@ async function submitAuth(e) {
   }
 }
  return <main className="page"><div className="snow s1">✧</div><div className="snow s2">✦</div><header className="topline"><div className="mini-brand"><Crown size={17}/>HODO THEATER</div></header><section className="hero"><div className="eyebrow"><Snowflake size={15}/> THE HOLIDAY MISSION <Snowflake size={15}/></div><h1>크리스마스 선물<br/><em>만들기 대작전</em></h1><p>각 팀이 힘을 모아 크리스마스 선물을 완성하세요.</p><div className="hero-art"><div className="glow"/><img src="/gift-box1.png" alt="빨간색 리본 크리스마스 선물 상자"/><span className="spark sp1">✧</span><span className="spark sp2">✦</span><span className="spark sp3">✧</span></div><div className="progress-wrap"><div className="section-label"><span/> 팀별 선물 제작도 <span/></div><div className="progress-grid">{TEAMS.map(t=><div className="progress-card" key={t.id}><div className="team-icon" style={{'--team':t.color}}>{t.icon}</div><div className="progress-info"><div className="progress-title"><b>{t.name} 팀</b><strong>{progress[t.id].toFixed(1)}%</strong></div><div className="bar"><span style={{width:`${progress[t.id]}%`,background:t.color}}/></div></div></div>)}</div></div></section>
- <section className="panel auth-panel" style={{maxWidth:720,margin:'0 auto 28px',padding:24}}>
-    <div className="panel-heading">
-      <div className="heading-icon gold"><Crown size={19}/></div>
-      <div><h2>{loggedInNickname ? `${loggedInNickname}님 로그인 중` : '참가자 로그인'}</h2><p>{loggedInNickname ? '로그인한 닉네임으로 기여 기록이 저장돼요.' : '닉네임과 비밀번호로 가입하거나 로그인해 주세요.'}</p></div>
-    </div>
+
+<section
+  className="panel auth-panel"
+  style={{
+    maxWidth: 900,
+    width: 'calc(100% - 32px)',
+    boxSizing: 'border-box',
+    margin: '32px auto 28px',
+    padding: 12,
+  }}
+>
+
 
 
 {!loggedInNickname && <form onSubmit={submitAuth}>
   <div style={{
     display: 'flex',
-    flexWrap: 'wrap',
+    flexWrap: 'nowrap',
     alignItems: 'center',
     gap: 8,
     marginTop: 12,
@@ -383,14 +390,20 @@ async function submitAuth(e) {
 
     <button
       type="submit"
-      className="primary-button"
-      style={{
-        flex: '0 0 auto',
-        padding: '10px 16px',
-        whiteSpace: 'nowrap',
-      }}
+     className="primary-button"
+     style={{
+      flex: '0 0 auto',
+      width: 'auto',
+      minWidth: 0,
+      display: 'inline-flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '10px 16px',
+      whiteSpace: 'nowrap',
+     }}
+
     >
-      {authMode === 'register' ? '가입하기' : '로그인'} ↗
+      {authMode === 'register' ? '가입하기' : '로그인'}
     </button>
   </div>
 
@@ -411,17 +424,74 @@ async function submitAuth(e) {
           type="button"
           className="primary-button"
           onClick={logout}
+          style={{
+            width: 'auto',
+            minWidth: 0,
+            padding: '8px 14px',
+            whiteSpace: 'nowrap',
+          }}
         >
           로그아웃
         </button>
       </div>
     )}
   </section>
-
+  
   <section className="action-grid"><article className="panel contribution"><div className="panel-heading"><div className="heading-icon red"><Gift size={19}/></div><div><h2>기여하기</h2><p>선택한 팀의 선물 제작도를 올려요</p></div></div><label>참여 닉네임</label><input value={loggedInNickname || ""} readOnly placeholder="먼저 로그인해 주세요"/><label>기여할 팀 선택</label><div className="team-buttons">{TEAMS.map(t=><button key={t.id} className={team===t.id?'chosen':''} style={{'--team':t.color}} onClick={()=>setTeam(t.id)}>{t.icon} {t.name}</button>)}</div><label>사용할 포인트</label><div className="point-input"><Coins size={17}/><input type="number" min="1" value={points} onChange={e=>setPoints(e.target.value)}/><span>P</span></div><p className="hint">10 포인트 사용 시 제작도 1% 증가</p><button className="primary-button" style={{'--team':active.color}} onClick={contribute}>선물 제작에 기여하기 <span>↗</span></button></article>
  <article className="panel sabotage"><div className="panel-heading"><div className="heading-icon green"><ShieldAlert size={19}/></div><div><h2>방해하기</h2><p>다른 팀의 제작도를 낮춰요</p></div></div><label>방해할 팀 선택</label><div className="team-buttons">{TEAMS.map(t=><button key={t.id} className={target===t.id?'chosen':''} style={{'--team':t.color}} onClick={()=>setTarget(t.id)}>{t.icon} {t.name}</button>)}</div><label>사용할 포인트</label><div className="point-input"><Coins size={17}/><input type="number" min="1" value={sabotagePoints} onChange={e=>setSabotagePoints(e.target.value)}/><span>P</span></div><p className="hint">10 포인트 사용 시 제작도 0.5% 감소</p><button className="primary-button dark" onClick={sabotage}>방해 작전 실행 <span>↗</span></button><p className="fineprint">※ 방해에 사용한 포인트는 기여 포인트에 집계되지 않습니다.</p></article>
  <article className="panel ranking"><div className="panel-heading"><div className="heading-icon gold"><Trophy size={19}/></div><div><h2>팀별 순위 보드</h2><p>우리 팀의 기여자를 확인하세요</p></div></div><div className="rank-tabs">{TEAMS.map(t=><button key={t.id} onClick={()=>setRankTeam(t.id)} className={rankTeam===t.id?'active':''} style={{'--team':t.color}}>{t.name}</button>)}</div><div className="rank-head"><span>순위</span><span>닉네임</span><span>기여 포인트</span></div><div className="rank-list">{[...(ranks[rankTeam]||[])].sort((a,b)=>b.points-a.points).slice(0,8).map((r,i)=><div className={'rank-row '+(r.name===nickname?'me':'')} key={r.name}><span className="rank-num">{i===0?'♛':String(i+1).padStart(2,'0')}</span><span className="rank-name">{r.name}{r.name===nickname&&<small>ME</small>}</span><strong>{r.points.toLocaleString()} <small>P</small></strong></div>)}</div><div className="rank-foot"><span>TEAM CONTRIBUTION</span><span>{TEAMS.find(t=>t.id===rankTeam).name} TEAM</span></div></article></section>
- <section className="panel rename-panel"><div className="rename-title"><div className="heading-icon gold"><Pencil size={18}/></div><div><h2>닉네임 변경</h2><p>계정과 랭킹을 안전하게 함께 변경하는 기능은 아직 준비 중이에요.</p></div></div></section><div className="toast"><Sparkles size={16}/><span>{notice}</span></div><footer><span>✦</span> MADE WITH A LITTLE CHRISTMAS MAGIC <span>✦</span><p>당신의 작은 기여가 모두의 크리스마스를 완성합니다.</p></footer></main>
+
+<section className="panel rename-panel">
+  <div className="rename-title">
+    <div className="heading-icon gold">
+      <Pencil size={18} />
+    </div>
+    <div>
+      <h2>닉네임 변경</h2>
+      <p>새로운 닉네임을 설정할 수 있어요.</p>
+    </div>
+  </div>
+
+  <form
+    onSubmit={e => {
+      e.preventDefault();
+      setNotice('닉네임 변경 기능을 연결하는 중이에요.');
+    }}
+    style={{
+      display: 'flex',
+      gap: 8,
+      alignItems: 'center',
+      marginTop: 14,
+      flexWrap: 'wrap',
+    }}
+  >
+    <input
+      type="text"
+      placeholder="새 닉네임"
+      maxLength={20}
+      minLength={1}
+      aria-label="새 닉네임"
+      style={{
+        flex: '1 1 160px',
+        minWidth: 0,
+        boxSizing: 'border-box',
+      }}
+    />
+    <button
+      type="submit"
+      className="primary-button"
+      style={{
+        width: 'auto',
+        minWidth: 0,
+        padding: '10px 16px',
+        whiteSpace: 'nowrap',
+      }}
+    >
+      닉네임 변경
+    </button>
+  </form>
+</section>
+<div className="toast"><Sparkles size={16}/><span>{notice}</span></div><footer><span>✦</span> MADE WITH A LITTLE CHRISTMAS MAGIC <span>✦</span><p>당신의 작은 기여가 모두의 크리스마스를 완성합니다.</p></footer></main>
 }
 
 export default App;
