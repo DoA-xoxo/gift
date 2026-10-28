@@ -559,7 +559,7 @@ background: radial-gradient(
   #F8F1E5 0%,
   #F5EBDDCC 30%,
   #F5EBDD70 55%,
-  transparent 50%
+  transparent 30%
 );
   filter: blur(12px);
   opacity: 1;
