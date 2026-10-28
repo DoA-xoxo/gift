@@ -763,6 +763,7 @@ footer p {
     width: 100%;
     flex: none !important;
     white-space: nowrap;
+    text-align: center;
   }
 
   .auth-user-actions {
