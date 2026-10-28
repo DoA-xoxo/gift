@@ -299,7 +299,13 @@ async function submitAuth(e) {
     setNotice('저장에 실패했어요. 잠시 후 다시 시도해 주세요.');
   }
 }
- return <main className="page"><div className="snow s1">✧</div><div className="snow s2">✦</div><section className="hero"><div className="eyebrow"><Snowflake size={15}/> THE HOLIDAY MISSION <Snowflake size={15}/></div><h1>크리스마스 선물<br/><em>만들기 대작전</em></h1><p>각 팀이 힘을 모아 크리스마스 선물을 완성하세요.</p><div className="hero-art"><div className="glow"/><img src="/gift-box1.png" alt="빨간색 리본 크리스마스 선물 상자"/><span className="spark sp1">✧</span><span className="spark sp2">✦</span><span className="spark sp3">✧</span></div>
+ return <main className="page"><div className="snow s1">✧</div><div className="snow s2">✦</div><section className="hero"><div className="eyebrow"><Snowflake size={15}/> THE HOLIDAY MISSION <Snowflake size={15}/></div>
+<img
+  src="/title.png"
+  alt="크리스마스 선물 만들기 대작전"
+  className="title-image"
+/>
+  <p>각 팀이 힘을 모아 크리스마스 선물을 완성하세요.</p><div className="hero-art"><div className="glow"/><img src="/gift-box1.png" alt="빨간색 리본 크리스마스 선물 상자"/><span className="spark sp1">✧</span><span className="spark sp2">✦</span><span className="spark sp3">✧</span></div>
   <div className="progress-wrap"><div className="section-label"><span/> ✦ 선물 제작 진행도 ✦ <span/></div><div className="progress-grid">{TEAMS.map(t=><div className="progress-card" key={t.id}>
   <div className="team-icon" style={{'--team':t.color}}>{t.icon}</div>
   <div className="progress-info"><div className="progress-title"><b>{t.name} 팀</b><strong>{progress[t.id].toFixed(1)}%</strong></div><div className="bar"><span style={{width:`${progress[t.id]}%`,background:t.color}}/></div></div></div>)}</div></div></section>
