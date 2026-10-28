@@ -76,16 +76,16 @@ body {
   width: 420px;
   height: 320px;
   border-radius: 50%;
-  background: #E8D9C0;
-  filter: blur(40px);
-  opacity: 0.5;
+  background: radial-gradient(
+    ellipse,
+    rgba(232, 217, 192, 1) 0%,
+    rgba(232, 217, 192, 0.7) 25%,
+    rgba(232, 217, 192, 0.3) 45%,
+    transparent 65%
+  );
+  filter: blur(12px);
+  opacity: 0.65;
   pointer-events: none;
-}
-
-.page::before,
-.page::after {
-  background: #C9BBA5;
-  opacity: 0.7;
 }
 .spark{position:absolute;color:#f0cc80;font-size:25px}
 .sp1{left:23%;top:28%}
