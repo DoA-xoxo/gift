@@ -2,14 +2,8 @@
 :root{font-family:'Noto Sans KR',sans-serif;color:#f9ecd4;background:#160b09;font-synthesis:none;font-optical-sizing:auto}*{box-sizing:border-box}
 body {
   margin: 0;
-  background: radial-gradient(
-    ellipse at 50% 12%,
-    #173326 0%,
-    #0e2118 28%,
-    #0b1a13 58%,
-    #07110d 100%
-  );
-  min-height: 100vh;
+  color: #3B3028;
+  background: #F5EBDD;
 }
 .page{max-width:1160px;margin:auto;padding:24px 28px 32px;position:relative;overflow:hidden}
 .page:before,
@@ -65,32 +59,13 @@ body {
 }
 /* 선물 뒤에서 퍼지는 따뜻한 빛 */
 .glow {
-  position: absolute;
-  z-index: 0;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: 340px;
-  height: 250px;
-  border-radius: 50%;
-  background: radial-gradient(
-    ellipse,
-    #e4bd7045 0%,
-    #c69a4930 30%,
-    #8eaa7730 52%,
-    transparent 75%
-  );
-  filter: blur(28px);
-  pointer-events: none;
+  display: none;
 }
-/* 선물 이미지는 빛 위에 배치 */
-.hero-art img {
-  position: relative;
-  z-index: 1;
-  width: 280px;
-  height: 270px;
-  object-fit: contain;
-  filter: drop-shadow(0 12px 20px #0007);
+
+.page::before,
+.page::after {
+  background: #C9BBA5;
+  opacity: 0.7;
 }
 .spark{position:absolute;color:#f0cc80;font-size:25px}
 .sp1{left:23%;top:28%}
