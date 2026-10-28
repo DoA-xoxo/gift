@@ -309,6 +309,8 @@ async function submitAuth(e) {
     boxSizing: 'border-box',
     margin: '24px 0 28px',
     padding: 12,
+    display: 'flex',
+    alignItems: 'center',
   }}
 >
 
@@ -324,7 +326,7 @@ async function submitAuth(e) {
         flexWrap: 'nowrap',
         alignItems: 'center',
         gap: 8,
-        marginTop: 12,
+        marginTop: 0,
         width: '100%',
         boxSizing: 'border-box',
       }}
@@ -541,6 +543,7 @@ async function submitAuth(e) {
         maxWidth: 420,
         boxSizing: 'border-box',
         padding: 24,
+        borderRadius: 12,
       }}
     >
       <div className="rename-title">
@@ -600,39 +603,61 @@ async function submitAuth(e) {
           }
         }}
       >
-        <input
-          name="newNickname"
-          value={renameNickname}
-          onChange={e => setRenameNickname(e.target.value)}
-          placeholder="새 닉네임"
-          aria-label="새 닉네임"
-          autoComplete="off"
-          maxLength={20}
-          required
-          style={{
-            width: '100%',
-            height: 42,
-            boxSizing: 'border-box',
-            marginTop: 18,
-          }}
-        />
+       <label
+  htmlFor="rename-nickname"
+  style={{
+    display: 'block',
+    marginTop: 22,
+    marginBottom: 8,
+    fontSize: 13,
+    fontWeight: 700,
+  }}
+>
+  새 닉네임
+</label>
+
+<input
+  id="rename-nickname"
+  name="newNickname"
+  value={renameNickname}
+  onChange={e => setRenameNickname(e.target.value)}
+  placeholder="새 닉네임"
+  aria-label="새 닉네임"
+  autoComplete="off"
+  maxLength={20}
+  required
+  style={{
+    display: 'block',
+    width: '100%',
+    height: 44,
+    boxSizing: 'border-box',
+    marginTop: 8,
+    padding: '0 14px',
+    borderRadius: 8,
+  }}
+/>
 
         <div
           style={{
             display: 'flex',
             justifyContent: 'flex-end',
-            gap: 8,
-            marginTop: 14,
+            gap: 10,
+            marginTop: 10,
           }}
         >
           <button
             type="button"
             disabled={renaming}
             onClick={() => setShowRenameModal(false)}
-            style={{
-              width: 'auto',
-              padding: '10px 14px',
-            }}
+
+style={{
+  width: 'auto',
+  minWidth: 76,
+  minHeight: 42,
+  padding: '10px 16px',
+  borderRadius: 8,
+}}
+
           >
             취소
           </button>
