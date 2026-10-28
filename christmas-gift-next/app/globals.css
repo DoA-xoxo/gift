@@ -58,10 +58,15 @@ body {
   isolation: isolate;
 }
 .hero-art img {
-  width: 240px;
-  height: 240px;
-  max-width: 100%;
+  display: block;
+  width: 150px;
+  height: 150px;
+  min-width: 0;
+  min-height: 0;
+  max-width: 150px;
+  max-height: 150px;
   object-fit: contain;
+  flex: none;
 }
 /* 선물 뒤에서 퍼지는 따뜻한 빛 */
 .glow {
@@ -751,20 +756,4 @@ footer p {
 .admin-link:hover {
   background: #24513F;
   color: #FFF7EC;
-}
-
-.hero-art {
-  height: 280px !important;
-  max-height: 280px !important;
-  overflow: hidden;
-}
-
-.hero-art img {
-  display: block !important;
-  width: 180px !important;
-  height: 180px !important;
-  max-width: 180px !important;
-  max-height: 180px !important;
-  object-fit: contain !important;
-  flex: 0 0 180px !important;
 }
