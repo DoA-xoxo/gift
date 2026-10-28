@@ -2,7 +2,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Gift, Snowflake, Trophy, Pencil, Coins, Sparkles, ShieldAlert, Crown } from 'lucide-react';
 const TEAMS=[{id:'human',name:'인간',color:'#bd302b',soft:'#f8e4df',icon:'♟'},{id:'soldier',name:'병정',color:'#28649a',soft:'#e0ebf6',icon:'♜'},{id:'mouse',name:'쥐',color:'#287347',soft:'#e0eee2',icon:'♚'}];
-const initialRanks={human:[],soldier:[],mouse:[};
+const initialRanks = { human: [], soldier: [], mouse: [] };
 const STORAGE_KEY='christmas-gift-event-v1';
 function App(){
  const [hydrated,setHydrated]=useState(false);
