@@ -21,7 +21,7 @@ export async function POST(request) {
       !/^[a-zA-Z0-9가-힣_-]+$/.test(nickname)
     ) {
       return NextResponse.json(
-        { error: '닉네임은 2~20자의 한글, 영문, 숫자, _ 또는 -만 사용할 수 있어요.' },
+        { error: '닉네임은 1~20자의 한글, 영문, 숫자, _ 또는 -만 사용할 수 있어요.' },
         { status: 400 }
       );
     }
@@ -32,7 +32,7 @@ export async function POST(request) {
       password.length > 128
     ) {
       return NextResponse.json(
-        { error: '비밀번호는 10~128자로 입력해 주세요.' },
+        { error: '비밀번호는 4~128자로 입력해 주세요.' },
         { status: 400 }
       );
     }
