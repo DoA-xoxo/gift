@@ -349,7 +349,7 @@ async function submitAuth(e) {
             color: authMode === 'login' ? '#fff' : '#6b5544',
             fontWeight: 700,
             cursor: 'pointer',
-            whiteSpace: 'nowrap',
+            whiteSpace: 'wrap',
           }}
         >
           로그인
@@ -440,6 +440,7 @@ async function submitAuth(e) {
   </form>
 ) : (
   <div
+    className="auth-user-row"
     style={{
       marginTop: 4,
       display: 'flex',
