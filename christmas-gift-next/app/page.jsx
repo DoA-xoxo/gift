@@ -305,7 +305,7 @@ async function submitAuth(e) {
   alt="크리스마스 선물 만들기 대작전"
   className="title-image"
 />
-  <p>각 팀이 힘을 모아 크리스마스 선물을 완성하세요.</p><div className="hero-art"><div className="glow"/><img src="/gift-box1.png" alt="빨간색 리본 크리스마스 선물 상자"/><span className="spark sp1">✧</span><span className="spark sp2">✦</span><span className="spark sp3">✧</span></div>
+  <p>각 팀이 힘을 모아 크리스마스 선물을 완성하세요.</p><div className="hero-art"><div className="glow"/><img src="/gift-box2.png" alt="빨간색 리본 크리스마스 선물 상자"/><span className="spark sp1">✧</span><span className="spark sp2">✦</span><span className="spark sp3">✧</span></div>
   <div className="progress-wrap"><div className="section-label"><span/> ✦ 선물 제작 진행도 ✦ <span/></div><div className="progress-grid">{TEAMS.map(t=><div className="progress-card" key={t.id}>
   <div className="team-icon" style={{'--team':t.color}}>{t.icon}</div>
   <div className="progress-info"><div className="progress-title"><b>{t.name} 팀</b><strong>{progress[t.id].toFixed(1)}%</strong></div><div className="bar"><span style={{width:`${progress[t.id]}%`,background:t.color}}/></div></div></div>)}</div></div></section>
