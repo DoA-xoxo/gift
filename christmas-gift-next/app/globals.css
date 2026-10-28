@@ -793,3 +793,13 @@ footer p {
     white-space: nowrap;
   }
 }
+
+/* 로고 크기 조절 */
+.title-image {
+  display: block;
+  width: 100%;
+  max-width: 680px;
+  height: auto;
+  margin: 20px auto;
+  object-fit: contain;
+}
