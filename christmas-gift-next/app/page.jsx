@@ -7,8 +7,109 @@ const STORAGE_KEY='christmas-gift-event-v1';
 function App(){
  const [hydrated,setHydrated]=useState(false);
  const [nickname,setNickname]=useState(''); const [team,setTeam]=useState('human'); const [points,setPoints]=useState('100'); const [target,setTarget]=useState('soldier'); const [sabotagePoints,setSabotagePoints]=useState('10'); const [rankTeam,setRankTeam]=useState('human'); const [progress,setProgress]=useState({human:42.5,soldier:37.8,mouse:28.6}); const [ranks,setRanks]=useState(initialRanks); const [oldName,setOldName]=useState('크리스마스요정'); const [newName,setNewName]=useState(''); const [notice,setNotice]=useState('작은 기여가 모여 멋진 크리스마스 선물이 완성돼요!');
- useEffect(()=>{try{const raw=localStorage.getItem(STORAGE_KEY);if(raw){const d=JSON.parse(raw);if(d.nickname!==undefined)setNickname(d.nickname);if(d.team!==undefined)setTeam(d.team);if(d.points!==undefined)setPoints(d.points);if(d.target!==undefined)setTarget(d.target);if(d.sabotagePoints!==undefined)setSabotagePoints(d.sabotagePoints);if(d.rankTeam!==undefined)setRankTeam(d.rankTeam);if(d.progress)setProgress(d.progress);if(d.ranks)setRanks(d.ranks);if(d.oldName!==undefined)setOldName(d.oldName);if(d.newName!==undefined)setNewName(d.newName);if(d.notice!==undefined)setNotice(d.notice);}}catch(e){console.warn('Could not load saved event data',e)}setHydrated(true);},[]);
- useEffect(()=>{if(!hydrated)return;try{localStorage.setItem(STORAGE_KEY,JSON.stringify({nickname,team,points,target,sabotagePoints,rankTeam,progress,ranks,oldName,newName,notice}));}catch(e){console.warn('Could not save event data',e)}},[hydrated,nickname,team,points,target,sabotagePoints,rankTeam,progress,ranks,oldName,newName,notice]);
+
+ useEffect(() => {
+  let cancelled = false;
+
+  async function loadData() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+
+      if (raw) {
+        const d = JSON.parse(raw);
+        if (d.nickname !== undefined) setNickname(d.nickname);
+        if (d.team !== undefined) setTeam(d.team);
+        if (d.points !== undefined) setPoints(d.points);
+        if (d.target !== undefined) setTarget(d.target);
+        if (d.sabotagePoints !== undefined) setSabotagePoints(d.sabotagePoints);
+        if (d.rankTeam !== undefined) setRankTeam(d.rankTeam);
+        if (d.oldName !== undefined) setOldName(d.oldName);
+        if (d.newName !== undefined) setNewName(d.newName);
+        if (d.notice !== undefined) setNotice(d.notice);
+      }
+
+      const response = await fetch('/api/event-state');
+      if (!response.ok) throw new Error('공유 데이터를 불러오지 못했습니다.');
+
+      const data = await response.json();
+
+      if (!cancelled) {
+        setProgress(data.progress);
+        setRanks(data.ranks);
+      }
+    } catch (error) {
+      console.error(error);
+      if (!cancelled) {
+        setNotice('공유 데이터를 불러오지 못했어요. 새로고침해 주세요.');
+      }
+    } finally {
+      if (!cancelled) setHydrated(true);
+    }
+  }
+
+  loadData();
+
+  return () => {
+    cancelled = true;
+  };
+}, []);
+ 
+useEffect(() => {
+  if (!hydrated) return;
+
+  try {
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({
+        nickname,
+        team,
+        points,
+        target,
+        sabotagePoints,
+        rankTeam,
+        oldName,
+        newName,
+        notice,
+      })
+    );
+  } catch (error) {
+    console.warn('Could not save personal settings', error);
+  }
+}, [
+  hydrated,
+  nickname,
+  team,
+  points,
+  target,
+  sabotagePoints,
+  rankTeam,
+  oldName,
+  newName,
+  notice,
+]);
+
+useEffect(() => {
+  if (!hydrated) return;
+
+  const timer = setInterval(async () => {
+    try {
+      const response = await fetch('/api/event-state', {
+        cache: 'no-store',
+      });
+
+      if (!response.ok) return;
+
+      const data = await response.json();
+      setProgress(data.progress);
+      setRanks(data.ranks);
+    } catch (error) {
+      console.warn('공유 데이터 새로고침 실패', error);
+    }
+  }, 5000);
+
+  return () => clearInterval(timer);
+}, [hydrated]);
+
  const active=TEAMS.find(t=>t.id===team); const totalPoints=useMemo(()=>Object.values(ranks).flat().find(r=>r.name===nickname)?.points||0,[ranks,nickname]);
  function contribute(){const n=Math.floor(Number(points));if(!Number.isFinite(n)||n<=0){setNotice('사용할 포인트를 1 이상 입력해 주세요.');return;}setProgress(p=>({...p,[team]:Math.min(100,+(p[team]+n/10).toFixed(1))}));setRanks(prev=>{const next={...prev,[team]:[...prev[team]]};const idx=next[team].findIndex(r=>r.name===nickname);if(idx>=0)next[team][idx]={...next[team][idx],points:next[team][idx].points+n};else next[team].push({name:nickname,points:n});next[team].sort((a,b)=>b.points-a.points);return next;});setNotice(`${active.name} 팀에 ${n.toLocaleString()} 포인트를 기여했어요! 제작도 +${(n/10).toFixed(1)}%`);}
  function sabotage(){const n=Math.floor(Number(sabotagePoints));if(!Number.isFinite(n)||n<=0){setNotice('방해할 포인트를 1 이상 입력해 주세요.');return;}setProgress(p=>({...p,[target]:Math.max(0,+(p[target]-n*0.05).toFixed(1))}));setNotice(`${TEAMS.find(t=>t.id===target).name} 팀 제작도가 ${(n*.05).toFixed(1)}% 감소했어요. 방해 포인트는 기여 순위에 포함되지 않아요.`);}
