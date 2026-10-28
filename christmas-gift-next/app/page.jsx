@@ -208,7 +208,7 @@ async function submitAuth(e) {
      return;
    }
    if (!Number.isFinite(n) || n <= 0) {
-     setNotice('사용할 포인트를 1 이상 입력해 주세요.');
+     setNotice('사용할 포인트를 10 이상 입력해 주세요.');
      return;
    }
 
@@ -235,7 +235,7 @@ async function submitAuth(e) {
      return;
    }
    if (!Number.isFinite(n) || n <= 0) {
-     setNotice('방해할 포인트를 1 이상 입력해 주세요.');
+     setNotice('방해할 포인트를 10 이상 입력해 주세요.');
      return;
    }
 
@@ -449,34 +449,44 @@ style={{
 )}
   </form>
 ) : (
-  <div
-    className="auth-user-row"
-style={{
-  marginTop: 0,
-  display: 'flex',
-  flexDirection: 'row',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  gap: 8,
-  flexWrap: 'nowrap',
-  width: '100%',
-  minWidth: 0,
-  minHeight: 40,
-  boxSizing: 'border-box',
-}}
+<div
+  className="auth-user-row"
+  style={{
+    marginTop: 0,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 8,
+    flexWrap: 'wrap',
+    width: '100%',
+    minWidth: 0,
+    minHeight: 40,
+    boxSizing: 'border-box',
+  }}
+>
+  <p
+    style={{
+      margin: 0,
+      flex: '1 1 auto',
+      minWidth: 0,
+      lineHeight: 1.4,
+      whiteSpace: 'nowrap',
+    }}
   >
-    <p
-      style={{
-        margin: 0,
-        flex: '1 1 auto',
-        minWidth: 0,
-        lineHeight: 1.4,
-        overflowWrap: 'anywhere',
-      }}
-    >
-      <strong>{loggedInNickname}</strong> 님, 메리 크리스마스!
-    </p>
+    <strong>{loggedInNickname}</strong> 님, 메리 크리스마스!
+  </p>
 
+  <div
+    className="auth-user-actions"
+    style={{
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'flex-end',
+      gap: 8,
+      flex: '0 0 auto',
+    }}
+  >
     <button
       type="button"
       className="primary-button"
@@ -518,6 +528,7 @@ style={{
       로그아웃
     </button>
   </div>
+</div>
 )}
 
   </section>
