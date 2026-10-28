@@ -458,11 +458,3 @@ body {
   background: #c6a56a;
   opacity: 0.85;
 }
-
-/* 상단 로고: 작고 우아한 세리프 폰트 */
-.mini-brand {
-  font-family: 'Gowun Batang', serif;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-}
