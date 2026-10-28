@@ -303,38 +303,42 @@ async function submitAuth(e) {
       <div><h2>{loggedInNickname ? `${loggedInNickname}님 로그인 중` : '참가자 로그인'}</h2><p>{loggedInNickname ? '로그인한 닉네임으로 기여 기록이 저장돼요.' : '닉네임과 비밀번호로 가입하거나 로그인해 주세요.'}</p></div>
     </div>
 
+
 {!loggedInNickname && <form onSubmit={submitAuth}>
-  <div style={{ display: 'grid', gap: 12, marginTop: 16 }}>
-    <div style={{
-      display: 'grid',
-      gridTemplateColumns: '1fr 1fr',
-      gap: 8,
-    }}>
+  <div style={{
+    display: 'flex',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    gap: 8,
+    marginTop: 12,
+    width: '100%',
+    boxSizing: 'border-box',
+  }}>
+    <div style={{ display: 'flex', gap: 4, flexShrink: 0 }}>
       <button
         type="button"
         onClick={() => setAuthMode('login')}
         style={{
-          padding: '10px 16px',
-          borderRadius: 10,
-          border: authMode === 'login' ? '2px solid #8b5e3c' : '1px solid #e5d8ca',
+          padding: '9px 12px',
+          borderRadius: 8,
+          border: '1px solid #8b5e3c',
           background: authMode === 'login' ? '#8b5e3c' : '#fffaf4',
-          color: authMode === 'login' ? '#ffffff' : '#6b5544',
+          color: authMode === 'login' ? '#fff' : '#6b5544',
           fontWeight: 700,
           cursor: 'pointer',
         }}
       >
         로그인
       </button>
-
       <button
         type="button"
         onClick={() => setAuthMode('register')}
         style={{
-          padding: '10px 16px',
-          borderRadius: 10,
-          border: authMode === 'register' ? '2px solid #8b5e3c' : '1px solid #e5d8ca',
+          padding: '9px 12px',
+          borderRadius: 8,
+          border: '1px solid #8b5e3c',
           background: authMode === 'register' ? '#8b5e3c' : '#fffaf4',
-          color: authMode === 'register' ? '#ffffff' : '#6b5544',
+          color: authMode === 'register' ? '#fff' : '#6b5544',
           fontWeight: 700,
           cursor: 'pointer',
         }}
@@ -343,44 +347,58 @@ async function submitAuth(e) {
       </button>
     </div>
 
-    <div style={{
-      display: 'grid',
-      gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)',
-      gap: 8,
-    }}>
-      <input
-        aria-label="닉네임"
-        value={authNickname}
-        onChange={e => setAuthNickname(e.target.value)}
-        autoComplete="username"
-        maxLength={20}
-        placeholder="닉네임"
-        style={{ width: '100%', minWidth: 0, boxSizing: 'border-box' }}
-      />
+    <input
+      aria-label="닉네임"
+      value={authNickname}
+      onChange={e => setAuthNickname(e.target.value)}
+      autoComplete="username"
+      maxLength={20}
+      placeholder="닉네임"
+      style={{
+        flex: '1 1 100px',
+        width: 0,
+        minWidth: 0,
+        boxSizing: 'border-box',
+        padding: '10px 12px',
+      }}
+    />
 
-      <input
-        aria-label="비밀번호"
-        type="password"
-        value={authPassword}
-        onChange={e => setAuthPassword(e.target.value)}
-        autoComplete={authMode === 'register' ? 'new-password' : 'current-password'}
-        minLength={authMode === 'register' ? 4 : 1}
-        maxLength={128}
-        placeholder={authMode === 'register' ? '비밀번호 (4자 이상)' : '비밀번호'}
-        style={{ width: '100%', minWidth: 0, boxSizing: 'border-box' }}
-      />
-    </div>
+    <input
+      aria-label="비밀번호"
+      type="password"
+      value={authPassword}
+      onChange={e => setAuthPassword(e.target.value)}
+      autoComplete={authMode === 'register' ? 'new-password' : 'current-password'}
+      minLength={authMode === 'register' ? 4 : 1}
+      maxLength={128}
+      placeholder={authMode === 'register' ? '비밀번호 (4자 이상)' : '비밀번호'}
+      style={{
+        flex: '1 1 120px',
+        width: 0,
+        minWidth: 0,
+        boxSizing: 'border-box',
+        padding: '10px 12px',
+      }}
+    />
 
-    {authMode === 'register' && (
-      <p className="hint" style={{ margin: 0 }}>
-        닉네임은 1~20자, 비밀번호는 4자 이상으로 만들어 주세요.
-      </p>
-    )}
-
-    <button type="submit" className="primary-button">
-      {authMode === 'register' ? '회원가입하기' : '로그인하기'} <span>↗</span>
+    <button
+      type="submit"
+      className="primary-button"
+      style={{
+        flex: '0 0 auto',
+        padding: '10px 16px',
+        whiteSpace: 'nowrap',
+      }}
+    >
+      {authMode === 'register' ? '가입하기' : '로그인'} ↗
     </button>
   </div>
+
+  {authMode === 'register' && (
+    <p className="hint" style={{ marginTop: 6 }}>
+      닉네임 1~20자, 비밀번호 4자 이상
+    </p>
+  )}
 </form>}
 
   
