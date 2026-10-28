@@ -601,7 +601,7 @@ body {
 .primary-button,
 .rename-button,
 .reset-button {
-  background: var(--christmas-red);
+  background: #812C30;
   border: 1px solid #751515;
   color: #FFF7EC;
   box-shadow: inset 0 0 0 1px #FFFFFF20;
@@ -611,7 +611,7 @@ body {
 .rename-button:hover:not(:disabled),
 .reset-button:hover:not(:disabled) {
   background: #8c2323;
-  border-color: #812C30;
+  border-color: var(--christmas-red);
 }
 
 /* 보조 버튼 */
