@@ -309,8 +309,6 @@ async function submitAuth(e) {
     boxSizing: 'border-box',
     margin: '24px 0 28px',
     padding: 12,
-    display: 'flex',
-    alignItems: 'center',
   }}
 >
 
