@@ -11,6 +11,9 @@ function App(){
  const [authNickname,setAuthNickname]=useState('');
  const [authPassword,setAuthPassword]=useState('');
  const [loggedInNickname,setLoggedInNickname]=useState('');
+ const [showRenameModal, setShowRenameModal] = useState(false);
+ const [renameNickname, setRenameNickname] = useState('');
+ const [renaming, setRenaming] = useState(false);
 
  // Restore the signed-in nickname from the HttpOnly session cookie on page load.
  useEffect(() => {
@@ -311,252 +314,346 @@ async function submitAuth(e) {
 
 
 
-{!loggedInNickname && <form onSubmit={submitAuth}>
-  <div style={{
-    display: 'flex',
-    flexWrap: 'nowrap',
-    alignItems: 'center',
-    gap: 8,
-    marginTop: 12,
-    width: '100%',
-    boxSizing: 'border-box',
-    minHeight: 44,
-  }}>
-    <div style={{ display: 'flex', gap: 4, flexShrink: 0 }}>
-      <button
-        type="button"
-        onClick={() => setAuthMode('login')}
+
+{!loggedInNickname ? (
+  <form onSubmit={submitAuth}>
+    <div
+      className="auth-controls"
+      style={{
+        display: 'flex',
+        flexWrap: 'nowrap',
+        alignItems: 'center',
+        gap: 8,
+        marginTop: 12,
+        width: '100%',
+        boxSizing: 'border-box',
+      }}
+    >
+      <div
+        className="auth-mode-buttons"
         style={{
-          padding: '9px 12px',
-          borderRadius: 8,
-          border: '1px solid #8b5e3c',
-          background: authMode === 'login' ? '#8b5e3c' : '#fffaf4',
-          color: authMode === 'login' ? '#fff' : '#6b5544',
-          fontWeight: 700,
-          cursor: 'pointer',
-          alignSelf: 'center'
+          display: 'flex',
+          gap: 4,
+          flexShrink: 0,
         }}
       >
-        로그인
-      </button>
-      <button
-        type="button"
-        onClick={() => setAuthMode('register')}
+        <button
+          type="button"
+          onClick={() => setAuthMode('login')}
+          style={{
+            height: 40,
+            padding: '0 12px',
+            borderRadius: 8,
+            border: '1px solid #8b5e3c',
+            background: authMode === 'login' ? '#8b5e3c' : '#fffaf4',
+            color: authMode === 'login' ? '#fff' : '#6b5544',
+            fontWeight: 700,
+            cursor: 'pointer',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          로그인
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setAuthMode('register')}
+          style={{
+            height: 40,
+            padding: '0 12px',
+            borderRadius: 8,
+            border: '1px solid #8b5e3c',
+            background: authMode === 'register' ? '#8b5e3c' : '#fffaf4',
+            color: authMode === 'register' ? '#fff' : '#6b5544',
+            fontWeight: 700,
+            cursor: 'pointer',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          회원가입
+        </button>
+      </div>
+
+      <input
+        aria-label="닉네임"
+        value={authNickname}
+        onChange={e => setAuthNickname(e.target.value)}
+        autoComplete="username"
+        maxLength={20}
+        placeholder="닉네임"
         style={{
+          flex: '1 1 100px',
+          width: 0,
+          minWidth: 0,
           height: 40,
-          padding: '9px 12px',
-          borderRadius: 8,
-          border: '1px solid #8b5e3c',
-          background: authMode === 'register' ? '#8b5e3c' : '#fffaf4',
-          color: authMode === 'register' ? '#fff' : '#6b5544',
-          fontWeight: 700,
-          cursor: 'pointer',
-          alignSelf: 'center',
+          margin: 0,
+          boxSizing: 'border-box',
+          padding: '0 12px',
+        }}
+      />
+
+      <input
+        aria-label="비밀번호"
+        type="password"
+        value={authPassword}
+        onChange={e => setAuthPassword(e.target.value)}
+        autoComplete={authMode === 'register' ? 'new-password' : 'current-password'}
+        minLength={authMode === 'register' ? 4 : 1}
+        maxLength={128}
+        placeholder={authMode === 'register' ? '비밀번호 (4자 이상)' : '비밀번호'}
+        style={{
+          flex: '1 1 120px',
+          width: 0,
+          minWidth: 0,
+          height: 40,
+          margin: 0,
+          boxSizing: 'border-box',
+          padding: '0 12px',
+        }}
+      />
+
+      <button
+        type="submit"
+        className="primary-button"
+        style={{
+          flex: '0 0 auto',
+          width: 'auto',
+          minWidth: 0,
+          height: 40,
+          margin: 0,
+          display: 'inline-flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '0 16px',
           whiteSpace: 'nowrap',
         }}
       >
-        회원가입
+        {authMode === 'register' ? '가입하기' : '로그인'}
       </button>
     </div>
 
-    <input
-      aria-label="닉네임"
-      value={authNickname}
-      onChange={e => setAuthNickname(e.target.value)}
-      autoComplete="username"
-      maxLength={20}
-      placeholder="닉네임"
+    {authMode === 'register' && (
+      <p className="hint" style={{ marginTop: 6 }}>
+        닉네임 1~20자, 비밀번호 4자 이상
+      </p>
+    )}
+  </form>
+) : (
+  <div
+    style={{
+      marginTop: 4,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      gap: 8,
+      flexWrap: 'nowrap',
+      width: '100%',
+      minHeight: 40,
+      boxSizing: 'border-box',
+    }}
+  >
+    <p
       style={{
-        flex: '1 1 100px',
-        width: 0,
-        minWidth: 0,
-        boxSizing: 'border-box',
-        padding: '10px 12px',
-        alignSelf: 'center',
-        height: 40,
         margin: 0,
-      }}
-    />
-
-    <input
-      aria-label="비밀번호"
-      type="password"
-      value={authPassword}
-      onChange={e => setAuthPassword(e.target.value)}
-      autoComplete={authMode === 'register' ? 'new-password' : 'current-password'}
-      minLength={authMode === 'register' ? 4 : 1}
-      maxLength={128}
-      placeholder={authMode === 'register' ? '비밀번호 (4자 이상)' : '비밀번호'}
-      style={{
-        flex: '1 1 120px',
-        width: 0,
+        flex: '1 1 auto',
         minWidth: 0,
-        boxSizing: 'border-box',
-        padding: '10px 12px',
-        alignSelf: 'center',
-        height: 40,
-        margin: 0,
+        lineHeight: 1.4,
+        overflowWrap: 'anywhere',
       }}
-    />
+    >
+      <strong>{loggedInNickname}</strong> 님, 메리 크리스마스!
+    </p>
 
     <button
-      type="submit"
-     className="primary-button"
-     style={{
-      flex: '0 0 auto',
-      width: 'auto',
-      minWidth: 0,
-      display: 'inline-flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      padding: '10px 16px',
-      whiteSpace: 'nowrap',
-      alignSelf: 'center'
-     }}
-
+      type="button"
+      className="primary-button"
+      onClick={() => {
+        setRenameNickname(loggedInNickname);
+        setShowRenameModal(true);
+      }}
+      style={{
+        width: 'auto',
+        flex: '0 0 auto',
+        height: 40,
+        margin: 0,
+        padding: '0 12px',
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        whiteSpace: 'nowrap',
+      }}
     >
-      {authMode === 'register' ? '가입하기' : '로그인'}
+      닉네임 변경
+    </button>
+
+    <button
+      type="button"
+      className="primary-button"
+      onClick={logout}
+      style={{
+        width: 'auto',
+        flex: '0 0 auto',
+        height: 40,
+        margin: 0,
+        padding: '0 12px',
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        whiteSpace: 'nowrap',
+      }}
+    >
+      로그아웃
     </button>
   </div>
+)}
 
-  {authMode === 'register' && (
-    <p className="hint" style={{ marginTop: 6 }}>
-      닉네임 1~20자, 비밀번호 4자 이상
-    </p>
-  )}
-</form>}
-
-  
-    {loggedInNickname && (
-      <div 
-       style={{
-        marginTop: 4,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        gap: 12,
-        flexWrap: 'nowrap',
-        minHeight: 42,
-        width: '100%',
-        boxSizing: 'border-box',
-       }}
-       >
-<p style={{
-  margin: 0,
-  lineHeight: '40px',
-  minWidth: 0,
-}}>
-  <strong>{loggedInNickname}</strong> 님, 메리 크리스마스!
-</p>
-        <button
-          type="button"
-          className="primary-button"
-          onClick={logout}          
-style={{
-  width: 'auto',
-  minWidth: 0,
-  flex: '0 0 auto',
-  height: 40,
-  margin: 0,
-  display: 'inline-flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  padding: '0 16px',
-  whiteSpace: 'nowrap',
-}}
-
-        >
-          로그아웃
-        </button>
-      </div>
-    )}
   </section>
   
   <section className="action-grid"><article className="panel contribution"><div className="panel-heading"><div className="heading-icon red"><Gift size={19}/></div><div><h2>기여하기</h2><p>선택한 팀의 선물 제작도를 올려요</p></div></div><label>참여 닉네임</label><input value={loggedInNickname || ""} readOnly placeholder="먼저 로그인해 주세요"/><label>기여할 팀 선택</label><div className="team-buttons">{TEAMS.map(t=><button key={t.id} className={team===t.id?'chosen':''} style={{'--team':t.color}} onClick={()=>setTeam(t.id)}>{t.icon} {t.name}</button>)}</div><label>사용할 포인트</label><div className="point-input"><Coins size={17}/><input type="number" min="1" value={points} onChange={e=>setPoints(e.target.value)}/><span>P</span></div><p className="hint">10 포인트 사용 시 제작도 1% 증가</p><button className="primary-button" style={{'--team':active.color}} onClick={contribute}>선물 제작에 기여하기 <span>↗</span></button></article>
  <article className="panel sabotage"><div className="panel-heading"><div className="heading-icon green"><ShieldAlert size={19}/></div><div><h2>방해하기</h2><p>다른 팀의 제작도를 낮춰요</p></div></div><label>방해할 팀 선택</label><div className="team-buttons">{TEAMS.map(t=><button key={t.id} className={target===t.id?'chosen':''} style={{'--team':t.color}} onClick={()=>setTarget(t.id)}>{t.icon} {t.name}</button>)}</div><label>사용할 포인트</label><div className="point-input"><Coins size={17}/><input type="number" min="1" value={sabotagePoints} onChange={e=>setSabotagePoints(e.target.value)}/><span>P</span></div><p className="hint">10 포인트 사용 시 제작도 0.5% 감소</p><button className="primary-button dark" onClick={sabotage}>방해 작전 실행 <span>↗</span></button><p className="fineprint">※ 방해에 사용한 포인트는 기여 포인트에 집계되지 않습니다.</p></article>
  <article className="panel ranking"><div className="panel-heading"><div className="heading-icon gold"><Trophy size={19}/></div><div><h2>팀별 순위 보드</h2><p>우리 팀의 기여자를 확인하세요</p></div></div><div className="rank-tabs">{TEAMS.map(t=><button key={t.id} onClick={()=>setRankTeam(t.id)} className={rankTeam===t.id?'active':''} style={{'--team':t.color}}>{t.name}</button>)}</div><div className="rank-head"><span>순위</span><span>닉네임</span><span>기여 포인트</span></div><div className="rank-list">{[...(ranks[rankTeam]||[])].sort((a,b)=>b.points-a.points).slice(0,8).map((r,i)=><div className={'rank-row '+(r.name===nickname?'me':'')} key={r.name}><span className="rank-num">{i===0?'♛':String(i+1).padStart(2,'0')}</span><span className="rank-name">{r.name}{r.name===nickname&&<small>ME</small>}</span><strong>{r.points.toLocaleString()} <small>P</small></strong></div>)}</div><div className="rank-foot"><span>TEAM CONTRIBUTION</span><span>{TEAMS.find(t=>t.id===rankTeam).name} TEAM</span></div></article></section>
 
-<section className="panel rename-panel">
-  <div className="rename-title">
-    <div className="heading-icon gold">
-      <Pencil size={18} />
-    </div>
-    <div>
-      <h2>닉네임 변경</h2>
-      <p>새로운 닉네임을 설정할 수 있어요.</p>
-    </div>
-  </div>
-
-  <form
-
-onSubmit={async e => {
-  e.preventDefault();
-
-  const form = e.currentTarget;
-  const input = form.querySelector('input');
-  const nextNickname = input?.value.trim();
-
-  if (!nextNickname) {
-    setNotice('새 닉네임을 입력해 주세요.');
-    return;
-  }
-
-  try {
-    setNotice('닉네임을 변경하고 있어요...');
-
-    const response = await fetch('/api/auth/rename', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'same-origin',
-      body: JSON.stringify({ nickname: nextNickname }),
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      setNotice(data.error || '닉네임 변경에 실패했어요.');
-      return;
-    }
-
-    setLoggedInNickname(data.nickname);
-    setNickname(data.nickname);
-    setOldName(data.nickname);
-    setNewName('');
-    input.value = '';
-
-    setNotice('닉네임이 성공적으로 변경됐어요! 🎄');
-  } catch (error) {
-    console.error('닉네임 변경 실패:', error);
-    setNotice('서버에 연결하지 못했어요. 잠시 후 다시 시도해 주세요.');
-  }
-}}
+  
+{showRenameModal && loggedInNickname && (
+  <div
+    onClick={() => !renaming && setShowRenameModal(false)}
+    style={{
+      position: 'fixed',
+      inset: 0,
+      zIndex: 1000,
+      background: 'rgba(20, 8, 4, 0.72)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: 16,
+      boxSizing: 'border-box',
+    }}
   >
-    <input
-      type="text"
-      placeholder="새 닉네임"
-      maxLength={20}
-      minLength={1}
-      aria-label="새 닉네임"
+    <section
+      className="panel rename-panel"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="rename-heading"
+      onClick={e => e.stopPropagation()}
       style={{
-        flex: '1 1 160px',
-        minWidth: 0,
+        width: '100%',
+        maxWidth: 420,
         boxSizing: 'border-box',
-      }}
-    />
-    <button
-      type="submit"
-      className="primary-button"
-      style={{
-        width: 'auto',
-        minWidth: 0,
-        padding: '10px 16px',
-        whiteSpace: 'nowrap',
+        padding: 24,
       }}
     >
-      닉네임 변경
-    </button>
-  </form>
-</section>
+      <div className="rename-title">
+        <div className="heading-icon gold">
+          <Pencil size={18} />
+        </div>
+        <div>
+          <h2 id="rename-heading">닉네임 변경</h2>
+          <p>새로운 닉네임을 입력해 주세요.</p>
+        </div>
+      </div>
+
+      <form
+        onSubmit={async e => {
+          e.preventDefault();
+          if (renaming) return;
+
+          const nextNickname = renameNickname.trim();
+
+          if (
+            !nextNickname ||
+            nextNickname.length > 20 ||
+            !/^[a-zA-Z0-9가-힣_-]+$/.test(nextNickname)
+          ) {
+            setNotice('닉네임은 한글, 영문, 숫자, _ 또는 -로 1~20자 입력해 주세요.');
+            return;
+          }
+
+          setRenaming(true);
+
+          try {
+            const response = await fetch('/api/auth/rename', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              credentials: 'same-origin',
+              body: JSON.stringify({ nickname: nextNickname }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+              setNotice(data.error || '닉네임 변경에 실패했어요.');
+              return;
+            }
+
+            setLoggedInNickname(data.nickname);
+            setNickname(data.nickname);
+            setOldName(data.nickname);
+            setNewName('');
+            setShowRenameModal(false);
+            setNotice('닉네임이 성공적으로 변경됐어요! 🎄');
+          } catch (error) {
+            console.error('닉네임 변경 실패:', error);
+            setNotice('서버에 연결하지 못했어요. 다시 시도해 주세요.');
+          } finally {
+            setRenaming(false);
+          }
+        }}
+      >
+        <input
+          name="newNickname"
+          value={renameNickname}
+          onChange={e => setRenameNickname(e.target.value)}
+          placeholder="새 닉네임"
+          aria-label="새 닉네임"
+          autoComplete="off"
+          maxLength={20}
+          required
+          style={{
+            width: '100%',
+            height: 42,
+            boxSizing: 'border-box',
+            marginTop: 18,
+          }}
+        />
+
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            gap: 8,
+            marginTop: 14,
+          }}
+        >
+          <button
+            type="button"
+            disabled={renaming}
+            onClick={() => setShowRenameModal(false)}
+            style={{
+              width: 'auto',
+              padding: '10px 14px',
+            }}
+          >
+            취소
+          </button>
+
+          <button
+            type="submit"
+            className="primary-button"
+            disabled={renaming}
+            style={{
+              width: 'auto',
+              padding: '10px 14px',
+            }}
+          >
+            {renaming ? '변경 중...' : '변경하기'}
+          </button>
+        </div>
+      </form>
+    </section>
+  </div>
+)}
+
+  
 <div className="toast"><Sparkles size={16}/><span>{notice}</span></div><footer><span>✦</span> MADE WITH A LITTLE CHRISTMAS MAGIC <span>✦</span><p>당신의 작은 기여가 모두의 크리스마스를 완성합니다.</p></footer></main>
 }
 
