@@ -302,25 +302,92 @@ async function submitAuth(e) {
       <div className="heading-icon gold"><Crown size={19}/></div>
       <div><h2>{loggedInNickname ? `${loggedInNickname}님 로그인 중` : '참가자 로그인'}</h2><p>{loggedInNickname ? '로그인한 닉네임으로 기여 기록이 저장돼요.' : '닉네임과 비밀번호로 가입하거나 로그인해 주세요.'}</p></div>
     </div>
-    {!loggedInNickname && <form onSubmit={submitAuth}>
-      <div style={{display:'grid',gap:10,marginTop:16}}>
-        <div className="rank-tabs">
-          <button type="button" className={authMode==='login'?'active':''} onClick={()=>setAuthMode('login')}>로그인</button>
-          <button type="button" className={authMode==='register'?'active':''} onClick={()=>setAuthMode('register')}>회원가입</button>
-        </div>
-        <label>닉네임</label>
-        <input value={authNickname} onChange={e=>setAuthNickname(e.target.value)} autoComplete="username" maxLength={20} placeholder="사용할 닉네임" />
-        <label>비밀번호</label>
-        <input type="password" value={authPassword} onChange={e=>setAuthPassword(e.target.value)} autoComplete={authMode==='register'?'new-password':'current-password'} minLength={authMode==='register'?10:1} maxLength={128} placeholder={authMode==='register'?'10자 이상 입력해 주세요':'비밀번호 입력'} />
-        {authMode==='register' && <p className="hint">닉네임은 2~20자, 비밀번호는 10자 이상으로 만들어 주세요.</p>}
-        <button type="submit" className="primary-button">{authMode==='register'?'회원가입하기':'로그인하기'} <span>↗</span></button>
-      </div>
-    </form>}
+
+{!loggedInNickname && <form onSubmit={submitAuth}>
+  <div style={{ display: 'grid', gap: 12, marginTop: 16 }}>
+    <div style={{
+      display: 'grid',
+      gridTemplateColumns: '1fr 1fr',
+      gap: 8,
+    }}>
+      <button
+        type="button"
+        onClick={() => setAuthMode('login')}
+        style={{
+          padding: '10px 16px',
+          borderRadius: 10,
+          border: authMode === 'login' ? '2px solid #8b5e3c' : '1px solid #e5d8ca',
+          background: authMode === 'login' ? '#8b5e3c' : '#fffaf4',
+          color: authMode === 'login' ? '#ffffff' : '#6b5544',
+          fontWeight: 700,
+          cursor: 'pointer',
+        }}
+      >
+        로그인
+      </button>
+
+      <button
+        type="button"
+        onClick={() => setAuthMode('register')}
+        style={{
+          padding: '10px 16px',
+          borderRadius: 10,
+          border: authMode === 'register' ? '2px solid #8b5e3c' : '1px solid #e5d8ca',
+          background: authMode === 'register' ? '#8b5e3c' : '#fffaf4',
+          color: authMode === 'register' ? '#ffffff' : '#6b5544',
+          fontWeight: 700,
+          cursor: 'pointer',
+        }}
+      >
+        회원가입
+      </button>
+    </div>
+
+    <div style={{
+      display: 'grid',
+      gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)',
+      gap: 8,
+    }}>
+      <input
+        aria-label="닉네임"
+        value={authNickname}
+        onChange={e => setAuthNickname(e.target.value)}
+        autoComplete="username"
+        maxLength={20}
+        placeholder="닉네임"
+        style={{ width: '100%', minWidth: 0, boxSizing: 'border-box' }}
+      />
+
+      <input
+        aria-label="비밀번호"
+        type="password"
+        value={authPassword}
+        onChange={e => setAuthPassword(e.target.value)}
+        autoComplete={authMode === 'register' ? 'new-password' : 'current-password'}
+        minLength={authMode === 'register' ? 4 : 1}
+        maxLength={128}
+        placeholder={authMode === 'register' ? '비밀번호 (4자 이상)' : '비밀번호'}
+        style={{ width: '100%', minWidth: 0, boxSizing: 'border-box' }}
+      />
+    </div>
+
+    {authMode === 'register' && (
+      <p className="hint" style={{ margin: 0 }}>
+        닉네임은 1~20자, 비밀번호는 4자 이상으로 만들어 주세요.
+      </p>
+    )}
+
+    <button type="submit" className="primary-button">
+      {authMode === 'register' ? '회원가입하기' : '로그인하기'} <span>↗</span>
+    </button>
+  </div>
+</form>}
+
   
     {loggedInNickname && (
       <div style={{ marginTop: 16, display: 'grid', gap: 10 }}>
         <p>
-          <strong>{loggedInNickname}</strong> 님, 로그인되어 있어요!
+          <strong>{loggedInNickname}</strong> 님, 메리 크리스마스!
         </p>
         <button
           type="button"
