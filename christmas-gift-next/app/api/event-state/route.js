@@ -53,16 +53,14 @@ export async function GET() {
   }
 }
 
-export async function POST(request) {
-  try {
-    const supabase = getSupabase();
 
-    if (!supabase) {
-      return NextResponse.json(
-        { error: '서버 환경변수를 확인해 주세요.' },
-        { status: 500 }
-      );
-    }
+export async function POST() {
+  return NextResponse.json(
+    { error: '이 방식의 데이터 수정은 비활성화되었습니다.' },
+    { status: 405 }
+  );
+}
+
 
     const body = await request.json();
 
