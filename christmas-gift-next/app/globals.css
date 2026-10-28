@@ -63,9 +63,9 @@ body {
   width: 280px;
   height: 270px;
   object-fit: contain;
-  filter: drop-shadow(0 12px 20px #0003);
+  filter: drop-shadow(0 12px 20px #0002);
 }
-/* 선물 뒤에서 퍼지는 따뜻한 빛 */
+/* 선물 뒤의 밝은 크림색 빛 */
 .glow {
   display: block;
   position: absolute;
@@ -73,17 +73,18 @@ body {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: 340px;
-  height: 250px;
+  width: 420px;
+  height: 320px;
   border-radius: 50%;
   background: radial-gradient(
     ellipse,
-    #FFFEF8 0%,
-    #FFFDF5CC 25%,
-    #F5EBDD80 50%,
-    transparent 75%
+    #FFFEFA 0%,
+    #FFFEFA 30%,
+    #FDF7EB 55%,
+    transparent 78%
   );
-  filter: blur(28px);
+  filter: blur(12px);
+  opacity: 1;
   pointer-events: none;
 }
 
@@ -541,15 +542,27 @@ body {
   color: #812C30;
 }
 
-/* 4. 선물 주변 빛: 밝은 아이보리 크림색 */
+/* 선물 뒤의 밝은 크림색 빛 */
 .glow {
+  display: block;
+  position: absolute;
+  z-index: 0;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 420px;
+  height: 320px;
+  border-radius: 50%;
   background: radial-gradient(
     ellipse,
-    #FFFEF8 0%,
-    #FFFDF5CC 25%,
-    #F5EBDD80 50%,
-    transparent 75%
+    #FFFEFA 0%,
+    #FFFEFA 30%,
+    #FDF7EB 55%,
+    transparent 78%
   );
+  filter: blur(12px);
+  opacity: 1;
+  pointer-events: none;
 }
 
 /* 5. 진행도 패널: 아이보리 종이 */
