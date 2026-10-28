@@ -84,7 +84,7 @@ export default function AdminPage() {
 
         <span>
           <Crown size={17} />
-          NUTCRACKER CLUB · ADMIN
+          HODO THEATER · ADMIN
         </span>
       </div>
 
