@@ -1,11 +1,9 @@
 
+
 import { createClient } from '@supabase/supabase-js';
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
-import {
-  verifyAdminToken,
-  ADMIN_COOKIE_NAME,
-} from '../../../lib/admin-auth.js';
+import { verifySessionToken } from '../../../lib/auth-session.js';
 
 export const runtime = 'nodejs';
 
