@@ -13,7 +13,7 @@ import {
 const KEY = 'christmas-gift-event-v1';
 
 // 원하는 관리자 비밀번호로 변경해 줘.
-const ADMIN_PASSWORD = '1234';
+const ADMIN_PASSWORD = 'ahzk0903!';
 
 const defaults = {
   nickname: '크리스마스요정',
