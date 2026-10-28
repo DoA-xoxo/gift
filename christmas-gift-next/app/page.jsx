@@ -468,6 +468,7 @@ style={{
   <p
     style={{
       margin: 0,
+      paddingLeft: 8,
       flex: '1 1 auto',
       minWidth: 0,
       lineHeight: 1.4,
