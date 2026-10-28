@@ -542,28 +542,6 @@ body {
   color: #812C30;
 }
 
-/* 선물 뒤의 밝은 크림색 빛 */
-.glow {
-  display: block;
-  position: absolute;
-  z-index: 0;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: 420px;
-  height: 320px;
-  border-radius: 50%;
-background: radial-gradient(
-  ellipse,
-  #E8D9C0 0%,
-  #E8D9C080 25%,
-  #E8D9C040 45%,
-  transparent 65%
-);
-  filter: blur(12px);
-  opacity: 0.3;
-  pointer-events: none;
-}
 
 /* 5. 진행도 패널: 아이보리 종이 */
 .progress-wrap {
