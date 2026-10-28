@@ -477,45 +477,307 @@ body {
   padding-bottom: 0;
 }
 
-/* 아이보리 크리스마스 장식 */
+
+/* =================================
+   Vintage Christmas Postcard Theme
+   ================================= */
+
 :root {
-  --christmas-gold: #F8EEDB;
-  --christmas-gold-light: #FFF8EB;
-  --christmas-gold-dark: #E8DDC8;
+  --christmas-red: #A23A3D;
+  --christmas-red-hover: #812C30;
+  --christmas-gold: #E7DCC8;
+  --christmas-ivory: #F5EBDD;
+  --christmas-green: #24513F;
+
+  --paper: #F5EBDD;
+  --paper-shadow: #E7DCC8;
+  --ink: #3D3028;
+  --muted-ink: #827365;
 }
 
-/* 양쪽 세로 선 */
+/* 1. 페이지 배경: 빈티지 딥 그린 */
+:root {
+  color: var(--paper);
+  background: #142B23;
+}
+
+body {
+  background:
+    radial-gradient(
+      ellipse at 50% 8%,
+      #2C5543 0%,
+      #1D3B2F 35%,
+      #142B23 72%,
+      #10231C 100%
+    );
+}
+
+/* 2. 양쪽 장식선: 금색 대신 종이색 */
 .page:before,
 .page:after {
-  background: #F8EEDB;
-  opacity: 0.65;
+  background: var(--paper-shadow);
+  opacity: 0.75;
 }
 
-/* 반짝이 */
-.spark {
-  color: #FFF8EB;
+/* 3. 제목과 장식 */
+.hero h1 {
+  color: var(--paper);
+  text-shadow: 0 2px 0 #10231C;
 }
 
-/* 눈 장식 */
-.snow {
-  color: #F8EEDB;
+.hero h1 em {
+  color: #D98A83;
 }
 
-/* 제목 위의 작은 문구 */
 .eyebrow {
-  color: #F8EEDB;
+  color: #E7DCC8;
 }
 
-/* 섹션 제목 양옆의 가로 선 */
+.hero > p {
+  color: #D8D0C1;
+}
+
+.spark {
+  color: #F5EBDD;
+  opacity: 0.85;
+}
+
+.snow {
+  color: #F5EBDD;
+}
+
+/* 4. 선물 주변 빛: 따뜻한 크림색 */
+.glow {
+  background: radial-gradient(
+    ellipse,
+    #F5EBDD30 0%,
+    #E7DCC820 35%,
+    #F5EBDD0A 58%,
+    transparent 75%
+  );
+}
+
+/* 5. 진행도 패널: 아이보리 종이 */
+.progress-wrap {
+  color: var(--ink);
+  background: linear-gradient(
+    145deg,
+    #FBF4E8,
+    #EDE1CF
+  );
+  border: 1px solid #D4C4AC;
+  box-shadow:
+    inset 0 0 0 3px #F8F0E4,
+    inset 0 0 0 4px #E0D1BC,
+    0 8px 22px #0003;
+}
+
+/* 진행도 제목과 선 */
+.section-label {
+  color: var(--christmas-red);
+}
+
 .section-label span {
-  background: #E8DDC8;
+  background: #CBBBA5;
 }
 
-/* 푸터 장식 */
+/* 진행도 막대 */
+.bar {
+  background: #E2D6C4;
+  border: 1px solid #D3C3AD;
+}
+
+/* 6. 모든 크림색 패널 통일 */
+.panel,
+.admin-card {
+  color: var(--ink);
+  background: linear-gradient(
+    145deg,
+    #FBF4E8,
+    #EDE1CF
+  );
+  border: 1px solid #D4C4AC;
+  box-shadow:
+    inset 0 0 0 3px #F8F0E4,
+    inset 0 0 0 4px #E0D1BC,
+    0 10px 24px #0003;
+}
+
+/* 패널 안의 제목 */
+.panel-heading h2,
+.rename-title h2,
+.admin-card h1,
+.admin-action h2 {
+  color: #58362F;
+}
+
+.panel-heading p,
+.rename-title p,
+.admin-lead {
+  color: var(--muted-ink);
+}
+
+/* 7. 버튼: 빈티지 레드 */
+.primary-button,
+.rename-button,
+.reset-button {
+  background: var(--christmas-red);
+  border: 1px solid #8D3034;
+  color: #FFF7EC;
+  box-shadow: inset 0 0 0 1px #FFFFFF20;
+}
+
+.primary-button:hover:not(:disabled),
+.rename-button:hover:not(:disabled),
+.reset-button:hover:not(:disabled) {
+  background: var(--christmas-red-hover);
+  border-color: #812C30;
+}
+
+/* 보조 버튼 */
+.primary-button.dark {
+  background: var(--christmas-green);
+  border-color: var(--christmas-green);
+}
+
+.cancel-button {
+  background: #F8F0E4;
+  border-color: #D4C4AC;
+  color: #583D32;
+}
+
+/* 8. 입력창 */
+.panel input,
+.point-input {
+  background: #FFF9F0;
+  border-color: #D4C4AC;
+  color: var(--ink);
+}
+
+.panel input:focus {
+  border-color: var(--christmas-red);
+  box-shadow: 0 0 0 2px #A23A3D20;
+}
+
+.point-input {
+  color: var(--christmas-red);
+}
+
+/* 9. 팀 아이콘: 초록과 레드 */
+.team-icon {
+  color: var(--christmas-green);
+}
+
+/* 팀 선택 버튼 */
+.team-buttons button,
+.rank-tabs button {
+  border-color: color-mix(
+    in srgb,
+    var(--team),
+    #F5EBDD 30%
+  );
+  background: color-mix(
+    in srgb,
+    var(--team),
+    #F5EBDD 88%
+  );
+}
+
+/* 10. 랭킹과 구분선 */
+.rank-head {
+  border-bottom-color: #D4C4AC;
+}
+
+.rank-row {
+  border-bottom-color: #E2D5C2;
+}
+
+.rank-row.me {
+  background: #E8D8C2;
+}
+
+.rank-num {
+  color: var(--christmas-red);
+}
+
+.rank-foot {
+  border-top-color: #D4C4AC;
+  color: #897767;
+}
+
+/* 11. 알림, 푸터 */
+.toast {
+  color: #F5EBDD;
+}
+
 footer {
-  border-top-color: #E8DDC8;
+  border-top-color: #C7BBA7;
+  color: #D8CDBD;
 }
 
 footer span {
-  color: #F8EEDB;
+  color: #F5EBDD;
+}
+
+footer p {
+  color: #BFB3A3;
+}
+
+/* 12. 관리자 화면 */
+.admin-page {
+  background: radial-gradient(
+    ellipse at 50% 10%,
+    #2C5543 0%,
+    #1D3B2F 42%,
+    #142B23 100%
+  );
+  color: var(--paper);
+}
+
+.admin-top {
+  border-bottom-color: #C7BBA7;
+  color: var(--paper);
+}
+
+.back-link {
+  color: var(--paper);
+}
+
+.admin-emblem {
+  background: #E7DCC8;
+  color: var(--christmas-red);
+  border-color: #D4C4AC;
+}
+
+.admin-eyebrow {
+  color: var(--christmas-red);
+}
+
+.admin-action {
+  border-color: #D4C4AC;
+}
+
+.admin-warning {
+  background: #F4E1D8;
+  border-color: #D9B8A8;
+}
+
+.admin-warning p {
+  color: #743B35;
+}
+
+.admin-footnote {
+  border-top-color: #D4C4AC;
+  color: var(--muted-ink);
+}
+
+/* 13. 링크 */
+.admin-link {
+  color: var(--paper);
+  border-color: #C7BBA7;
+}
+
+.admin-link:hover {
+  background: #24513F;
+  color: #FFF7EC;
 }
