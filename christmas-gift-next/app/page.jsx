@@ -304,10 +304,10 @@ async function submitAuth(e) {
 <section
   className="panel auth-panel"
   style={{
-    maxWidth: 900,
-    width: 'calc(100% - 32px)',
+    width: '100%',
+    maxWidth: none,
     boxSizing: 'border-box',
-    margin: '32px auto 28px',
+    margin: '24px 0 28px',
     padding: 12,
   }}
 >
