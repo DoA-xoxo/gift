@@ -752,3 +752,19 @@ footer p {
   background: #24513F;
   color: #FFF7EC;
 }
+
+.hero-art {
+  height: 280px !important;
+  max-height: 280px !important;
+  overflow: hidden;
+}
+
+.hero-art img {
+  display: block !important;
+  width: 180px !important;
+  height: 180px !important;
+  max-width: 180px !important;
+  max-height: 180px !important;
+  object-fit: contain !important;
+  flex: 0 0 180px !important;
+}
