@@ -478,7 +478,7 @@ body {
    ================================= */
 
 :root {
-  --christmas-red: #a62845;
+  --christmas-red: #751515;
   --christmas-red-hover: #900e26;
   --christmas-gold: #E7DCC8;
   --christmas-ivory: #F5EBDD;
@@ -506,7 +506,7 @@ body {
 .page:before,
 .page:after {
   background: var(--christmas-red-hover);
-  opacity: 0.75;
+  opacity: 1;
 }
 
 /* 3. 제목과 장식 */
@@ -602,7 +602,7 @@ body {
 .rename-button,
 .reset-button {
   background: var(--christmas-red);
-  border: 1px solid #a62845;
+  border: 1px solid #751515;
   color: #FFF7EC;
   box-shadow: inset 0 0 0 1px #FFFFFF20;
 }
