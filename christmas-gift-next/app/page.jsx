@@ -720,7 +720,10 @@ style={{
     {renaming ? '변경 중...' : '변경하기'}
   </button>
 </div>
-
+      </form>
+    </section>
+  </div>
+)}
 
   
 <div className="toast"><Sparkles size={16}/><span>{notice}</span></div><footer><span>✦</span> MADE WITH A LITTLE CHRISTMAS MAGIC <span>✦</span><p>당신의 작은 기여가 모두의 크리스마스를 완성합니다.</p></footer></main>
