@@ -12,9 +12,6 @@ import {
 
 const KEY = 'christmas-gift-event-v1';
 
-// 원하는 관리자 비밀번호로 변경해 줘.
-const ADMIN_PASSWORD = 'ahzk0903!';
-
 const defaults = {
   nickname: '크리스마스요정',
   team: 'human',
@@ -56,21 +53,31 @@ export default function AdminPage() {
     setError('');
   }
 
-  function resetAll() {
-    if (password !== ADMIN_PASSWORD) {
-      setError('비밀번호가 올바르지 않습니다.');
-      return;
-    }
+  async function resetAll() {
+    setError('');
 
     try {
-      localStorage.setItem(KEY, JSON.stringify(defaults));
+      const response = await fetch('/api/admin/reset', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ password }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        setError(result.error || '초기화에 실패했습니다.');
+        return;
+      }
 
       setConfirming(false);
       setPassword('');
       setError('');
       setDone(true);
-    } catch (e) {
-      setError('초기화에 실패했습니다. 다시 시도해 주세요.');
+    } catch {
+      setError('서버에 연결할 수 없습니다. 잠시 후 다시 시도해 주세요.');
     }
   }
 
