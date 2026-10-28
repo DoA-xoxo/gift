@@ -803,3 +803,32 @@ footer p {
   margin: 20px auto;
   object-fit: contain;
 }
+
+/* 순위 보드 팀 버튼을 기여하기 팀 버튼과 동일하게 */
+.rank-tabs button {
+  border: 1px solid color-mix(
+    in srgb,
+    var(--team),
+    #F5EBDD 30%
+  );
+  background: color-mix(
+    in srgb,
+    var(--team),
+    #F5EBDD 88%
+  );
+  color: var(--team);
+  border-radius: 5px;
+  padding: 10px 4px;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: .15s;
+}
+
+/* 선택된 버튼도 기여하기와 동일한 효과 */
+.rank-tabs button.active {
+  background: var(--team);
+  color: white;
+  box-shadow: inset 0 0 0 2px #ffffff55, 0 3px 8px #0002;
+}
