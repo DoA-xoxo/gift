@@ -1,12 +1,10 @@
 
 import { createClient } from '@supabase/supabase-js';
 import { NextResponse } from 'next/server';
-import { randomBytes, scrypt as scryptCallback } from 'node:crypto';
-import { promisify } from 'node:util';
+import { hashSharedPassword } from '../../../../lib/shared-password.js';
 
 export const runtime = 'nodejs';
 
-const scrypt = promisify(scryptCallback);
 
 export async function POST(request) {
   try {
@@ -56,10 +54,7 @@ export async function POST(request) {
       },
     });
 
-    const salt = randomBytes(16).toString('hex');
-    const derivedKey = await scrypt(password, salt, 64);
-    const passwordHash =
-      `${salt}:${Buffer.from(derivedKey).toString('hex')}`;
+    const passwordHash = await hashSharedPassword(password);
 
     const { error } = await supabase
       .from('event_users')

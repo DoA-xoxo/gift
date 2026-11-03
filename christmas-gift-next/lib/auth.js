@@ -38,6 +38,8 @@ export function verifySessionToken(token) {
       return null;
     }
 
+    if (session.id !== undefined && typeof session.id !== 'string') return null;
+
     return session;
   } catch {
     return null;

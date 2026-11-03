@@ -384,12 +384,12 @@ style={{
       </div>
 
       <input
-        aria-label="닉네임"
+        aria-label="아이디(닉네임)"
         value={authNickname}
         onChange={e => setAuthNickname(e.target.value)}
         autoComplete="username"
         maxLength={20}
-        placeholder="닉네임"
+        placeholder="아이디(닉네임)"
         style={{
           flex: '1 1 0px',
           width: 0,

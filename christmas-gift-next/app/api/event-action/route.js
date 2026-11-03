@@ -47,6 +47,14 @@ export async function POST(request) {
       );
     }
 
+    let accountQuery = supabase.from('event_users').select('nickname');
+    accountQuery = session.id ? accountQuery.eq('id', session.id) : accountQuery.eq('nickname', session.nickname);
+    const { data: account, error: accountError } = await accountQuery.maybeSingle();
+    if (accountError || !account) {
+      return NextResponse.json({ error: '계정 정보를 찾을 수 없어요. 다시 로그인해 주세요.' }, { status: 401 });
+    }
+    const actorNickname = account.nickname;
+
     const { data: row, error: readError } = await supabase
       .from('event_state')
       .select('state')
@@ -89,7 +97,7 @@ export async function POST(request) {
       );
 
       const index = ranks[team].findIndex(
-        r => r.name === session.nickname
+        r => r.name === actorNickname
       );
 
       if (index >= 0) {
@@ -99,7 +107,7 @@ export async function POST(request) {
         };
       } else {
         ranks[team].push({
-          name: session.nickname,
+          name: actorNickname,
           points,
         });
       }
@@ -160,7 +168,7 @@ export async function POST(request) {
     const { error: logError } = await supabase
       .from('event_action_logs')
       .insert({
-        nickname: session.nickname,
+        nickname: actorNickname,
         action: logAction,
         team: logTeam,
         points: body.points,
