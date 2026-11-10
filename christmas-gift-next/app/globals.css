@@ -832,3 +832,14 @@ footer p {
   color: white;
   box-shadow: inset 0 0 0 2px #ffffff55, 0 3px 8px #0002;
 }
+
+
+/* Match the page background to the Sugar Fairy Letter site */
+:root,
+html,
+body {
+  background: #fff8ef;
+}
+.admin-page {
+  background: #fff8ef;
+}
