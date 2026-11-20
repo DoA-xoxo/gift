@@ -1,6 +1,7 @@
 import { createClient } from '@supabase/supabase-js';
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
+import { randomUUID } from 'node:crypto';
 import { verifyAdminToken, ADMIN_COOKIE_NAME } from '../../../../lib/admin-auth.js';
 
 export const runtime = 'nodejs';
@@ -75,7 +76,7 @@ export async function POST(request) {
       p_source_site: 'admin',
       p_transaction_type: direction === 'grant' ? 'admin_grant' : 'admin_deduct',
       p_description: description || (direction === 'grant' ? '관리자 포인트 지급' : '관리자 포인트 회수'),
-      p_idempotency_key: `admin:${crypto.randomUUID()}`,
+      p_idempotency_key: `admin:${randomUUID()}`,
     });
 
     if (changeError) {
