@@ -3,6 +3,7 @@
 import { createClient } from '@supabase/supabase-js';
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
+import { randomUUID } from 'node:crypto';
 import { verifySessionToken } from '../../../lib/auth.js';
 
 export const runtime = 'nodejs';
@@ -47,7 +48,7 @@ export async function POST(request) {
       );
     }
 
-    let accountQuery = supabase.from('event_users').select('nickname');
+    let accountQuery = supabase.from('event_users').select('id,nickname');
     accountQuery = session.id ? accountQuery.eq('id', session.id) : accountQuery.eq('nickname', session.nickname);
     const { data: account, error: accountError } = await accountQuery.maybeSingle();
     if (accountError || !account) {
@@ -147,17 +148,60 @@ export async function POST(request) {
       );
     }
 
+    const actionType = body.action === 'contribute' ? 'gift_contribution' : 'gift_sabotage';
+    const spentPoints = body.points;
+    const requestKey = randomUUID();
+
+    const { error: debitError } = await supabase.rpc('change_shared_points', {
+      p_account_id: account.id,
+      p_delta: -spentPoints,
+      p_source_site: 'gift',
+      p_transaction_type: actionType,
+      p_description: body.action === 'contribute'
+        ? `${actorNickname} 님의 ${TEAMS.find(t => t.id === body.team).name} 팀 기여`
+        : `${actorNickname} 님의 ${TEAMS.find(t => t.id === body.target).name} 팀 방해`,
+      p_idempotency_key: `gift:${requestKey}`,
+    });
+
+    if (debitError) {
+      console.error('Shared point debit failed:', debitError.message);
+      const message = /insufficient|balance|negative/i.test(debitError.message)
+        ? '공통 포인트 잔액이 부족해요.'
+        : '포인트 차감에 실패했어요. 잠시 후 다시 시도해 주세요.';
+      return NextResponse.json({ error: message }, { status: 400 });
+    }
+
     const { error: saveError } = await supabase
       .from('event_state')
       .update({ state: { ...state, progress, ranks } })
       .eq('id', 1);
 
     if (saveError) {
+      const { error: refundError } = await supabase.rpc('change_shared_points', {
+        p_account_id: account.id,
+        p_delta: spentPoints,
+        p_source_site: 'gift',
+        p_transaction_type: 'gift_action_refund',
+        p_description: '이벤트 데이터 저장 실패로 포인트 환불',
+        p_idempotency_key: `gift:refund:${requestKey}`,
+      });
+      if (refundError) console.error('Shared point refund failed:', refundError.message);
+
       return NextResponse.json(
-        { error: '공유 데이터 저장에 실패했어요.' },
+        { error: refundError
+          ? '저장에 실패했고 자동 환불도 완료되지 않았어요. 관리자에게 문의해 주세요.'
+          : '공유 데이터 저장에 실패해 포인트를 환불했어요.' },
         { status: 500 }
       );
     }
+
+    const { data: updatedWallet, error: balanceError } = await supabase
+      .from('point_wallets')
+      .select('balance')
+      .eq('account_id', account.id)
+      .single();
+
+    if (balanceError) console.error('Shared point balance refresh failed:', balanceError.message);
 
     const logAction =
       body?.action === 'contribute' ? 'contribute' : 'sabotage';
@@ -182,6 +226,7 @@ export async function POST(request) {
       success: true,
       progress,
       ranks,
+      balance: Number(updatedWallet?.balance ?? 0),
     });
   } catch (error) {
     console.error('Event action failed:', error);
