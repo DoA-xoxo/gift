@@ -10,7 +10,7 @@ function App(){
  const [authMode,setAuthMode]=useState('login');
  const [authNickname,setAuthNickname]=useState('');
  const [authPassword,setAuthPassword]=useState('');
- const [loggedInNickname,setLoggedInNickname]=useState('');
+ const [loggedInNickname,setLoggedInNickname]=useState(''); const [sharedPoints,setSharedPoints]=useState(0);
  const [showRenameModal, setShowRenameModal] = useState(false);
  const [renameNickname, setRenameNickname] = useState('');
  const [renaming, setRenaming] = useState(false);
@@ -28,6 +28,7 @@ function App(){
       if (!cancelled && data.loggedIn && data.nickname) {
         setLoggedInNickname(data.nickname);
         setNickname(data.nickname);
+        setSharedPoints(Number(data.points ?? 0));
       }
     } catch (error) {
       console.error('로그인 상태를 확인하지 못했어요.', error);
@@ -158,6 +159,7 @@ async function logout() {
     }
 
     setLoggedInNickname('');
+    setSharedPoints(0);
     setAuthNickname('');
     setAuthPassword('');
     setNickname('');
@@ -193,6 +195,9 @@ async function submitAuth(e) {
      } else {
        setLoggedInNickname(cleanNickname);
        setNickname(cleanNickname);
+       const meResponse = await fetch('/api/auth/me', { credentials: 'same-origin', cache: 'no-store' });
+       const meData = await meResponse.json().catch(() => ({}));
+       setSharedPoints(Number(meData.points ?? 0));
        setAuthPassword('');
        setNotice(`${cleanNickname} 님, 로그인했어요! 이제 포인트를 사용할 수 있어요.`);
      }
@@ -222,7 +227,8 @@ async function submitAuth(e) {
      if (!response.ok) throw new Error(data.error || '저장에 실패했어요.');
      setProgress(data.progress);
      setRanks(data.ranks);
-     setNotice(`${active.name} 팀에 ${n.toLocaleString()} 포인트를 기여했어요! 🎄`);
+     setSharedPoints(Number(data.balance ?? 0));
+     setNotice(`${active.name} 팀에 ${n.toLocaleString()}P를 기여했어요! 🎄`);
    } catch (error) {
      setNotice(error.message || '저장에 실패했어요. 잠시 후 다시 시도해 주세요.');
    }
@@ -249,7 +255,8 @@ async function submitAuth(e) {
      if (!response.ok) throw new Error(data.error || '저장에 실패했어요.');
      setProgress(data.progress);
      setRanks(data.ranks);
-     setNotice(`${TEAMS.find(t => t.id === target).name} 팀의 선물 제작을 성공적으로 방해했어요.`);
+     setSharedPoints(Number(data.balance ?? 0));
+     setNotice(`${TEAMS.find(t => t.id === target).name} 팀의 선물 제작을 ${n.toLocaleString()}P로 성공적으로 방해했어요.`);
    } catch (error) {
      setNotice(error.message || '저장에 실패했어요. 잠시 후 다시 시도해 주세요.');
    }
@@ -481,7 +488,7 @@ style={{
       whiteSpace: 'nowrap',
     }}
   >
-    <strong>{loggedInNickname}</strong> 님, 메리 크리스마스!🎄
+    <strong>{loggedInNickname}</strong> 님, 메리 크리스마스!🎄 <strong style={{ whiteSpace: 'nowrap' }}>{sharedPoints.toLocaleString()} P</strong>
   </p>
 
   <div
