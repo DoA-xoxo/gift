@@ -327,6 +327,12 @@ export default function AdminPage() {
               >
                 <strong>관리자 대시보드</strong>
                 <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                  <a
+                    href="/admin/points"
+                    style={{ ...styles.secondary, textDecoration: 'none' }}
+                  >
+                    <Crown size={15} /> 공통 포인트 관리
+                  </a>
                   <button
                     type="button"
                     style={styles.secondary}
