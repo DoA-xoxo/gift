@@ -78,7 +78,7 @@ export default function SharedPointsAdminPage() {
       <div style={{ width: 'min(100%, 1040px)', margin: '0 auto' }}>
         <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap', marginBottom: 22 }}>
           <a href="/admin" style={{ color: '#fff6e5', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 7 }}><ArrowLeft size={16} /> 관리자 메뉴</a>
-          <button type="button" style={secondary} onClick={logout}><LogOut size={15} /> 로그아웃</button>
+          <button type="button" style={{ ...secondary, color: '#fff6e5', borderColor: '#c6a77e' }} onClick={logout}><LogOut size={15} /> 로그아웃</button>
         </header>
         <section style={panel}>
           <div style={{ textAlign: 'center', marginBottom: 24 }}>
