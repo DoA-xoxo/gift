@@ -158,8 +158,8 @@ export async function POST(request) {
       p_source_site: 'gift',
       p_transaction_type: actionType,
       p_description: body.action === 'contribute'
-        ? `${actorNickname} 님의 ${TEAMS.find(t => t.id === body.team).name} 팀 기여`
-        : `${actorNickname} 님의 ${TEAMS.find(t => t.id === body.target).name} 팀 방해`,
+        ? `${actorNickname} 님의 ${{ human: '인간', soldier: '병정', mouse: '쥐' }[body.team]} 팀 기여`
+        : `${actorNickname} 님의 ${{ human: '인간', soldier: '병정', mouse: '쥐' }[body.target]} 팀 방해`,
       p_idempotency_key: `gift:${requestKey}`,
     });
 
